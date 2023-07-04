@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Oksana Sivakova](https://up.htmlacademy.ru/react/13/user/2271085).
-* Наставник: `Неизвестно`.
+* Наставник: [Глеб Клецков](https://htmlacademy.ru/profile/id1487865).
 
 ---
 
