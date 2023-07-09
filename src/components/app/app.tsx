@@ -1,8 +1,12 @@
 import Main from '../../pages/main/main';
 
-function App(): JSX.Element {
+type AppProps = {
+  offersCount: number;
+}
+
+function App({offersCount}: AppProps): JSX.Element {
   return (
-    <Main />
+    <Main offersCount={offersCount} />
   );
 }
 
