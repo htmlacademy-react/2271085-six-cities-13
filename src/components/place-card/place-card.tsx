@@ -1,3 +1,5 @@
+import styles from './place-card.module.css';
+
 function PlaceCard (): JSX.Element {
   return (
     <article className="cities__card place-card">
@@ -7,10 +9,8 @@ function PlaceCard (): JSX.Element {
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img
-            className="place-card__image"
+            className={styles['place-card__image']}
             src="img/apartment-01.jpg"
-            width={260}
-            height={200}
             alt="Place image"
           />
         </a>
