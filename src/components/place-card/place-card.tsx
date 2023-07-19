@@ -1,24 +1,39 @@
+import { Offer } from '../../types';
 import styles from './place-card.module.css';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
-function PlaceCard (): JSX.Element {
+type PlaceCardProps = {
+  offer: Offer;
+}
+
+function PlaceCard ({offer}: PlaceCardProps): JSX.Element {
+  const { price, title, type, id} = offer;
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <article className="cities__card place-card">
-      <div className="place-card__mark">
+    <article
+      onMouseEnter={() => setIsHovered(!isHovered)}
+      onMouseLeave={() => setIsHovered(!isHovered)}
+      className="cities__card place-card" key={id}
+    >
+      <div className={`place-card__mark ${offer.isPremium ? '' : 'visually-hidden'}`}>
         <span>Premium</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`${AppRoute.Offer}/${offer.id}`}>
           <img
             className={styles['place-card__image']}
-            src="img/apartment-01.jpg"
+            src={offer.previewImage}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€120</b>
+            <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -30,14 +45,14 @@ function PlaceCard (): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }} />
+            <span style={{ width: `${String(offer.rating / 5 * 100)}%`}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Beautiful &amp; luxurious apartment at great location</a>
+          <a href="#">{title}</a>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

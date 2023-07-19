@@ -6,7 +6,7 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:id',
+  Offer = '/offer',
 }
 
 export enum AuthorizationStatus {
@@ -14,3 +14,13 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+const Stars = [
+  'terribly',
+  'badly',
+  'not bad',
+  'good',
+  'perfect',
+] as const;
+
+export {Stars};
