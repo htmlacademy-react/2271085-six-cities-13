@@ -1,26 +1,23 @@
-import PlaceCard from '../../components/place-card/place-card';
+import { Helmet } from 'react-helmet-async';
+import OffersList from '../../components/offers-list/offers-list';
+import Logo from '../../components/logo/logo';
+import { Offers } from '../../types';
 
 type MainProps = {
   offersCount: number;
+  offers: Offers;
 }
 
-function Main ({offersCount}: MainProps): JSX.Element {
+function Main ({offersCount, offers}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>Six cities.Main page</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width={81}
-                  height={41}
-                />
-              </a>
-            </div>
+            <Logo />
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
@@ -114,13 +111,7 @@ function Main ({offersCount}: MainProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-              </div>
+              <OffersList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
