@@ -14,9 +14,9 @@ type OfferProps = {
 }
 
 function Offer({detailedOffers, comments}: OfferProps): JSX.Element {
-  const id = useParams().id;
+  const { id } = useParams();
   const detailedOffer = detailedOffers.find((offer) => offer.id === id);
-  if (detailedOffer === undefined){
+  if (!detailedOffer){
     return (
       <Navigate to='/Page404'></Navigate>
     );

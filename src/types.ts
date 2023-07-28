@@ -57,4 +57,4 @@ type DetailedOffers = DetailedOffer[];
 
 type Comments = Comment[];
 
-export type { Offers, Offer, DetailedOffer, DetailedOffers, Comment, Comments};
+export type { Offers, Offer, DetailedOffer, DetailedOffers, Comment, Comments, City};

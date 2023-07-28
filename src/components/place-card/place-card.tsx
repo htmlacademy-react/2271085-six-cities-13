@@ -1,21 +1,19 @@
 import { Offer } from '../../types';
 import styles from './place-card.module.css';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
 type PlaceCardProps = {
   offer: Offer;
+  handlePlaceCardHover: () => void;
 }
 
-function PlaceCard ({offer}: PlaceCardProps): JSX.Element {
-  const { price, title, type, id} = offer;
-  const [isHovered, setIsHovered] = useState(false);
+function PlaceCard ({offer, handlePlaceCardHover}: PlaceCardProps): JSX.Element {
+  const { price, title, type, id, } = offer;
 
   return (
     <article
-      onMouseEnter={() => setIsHovered(!isHovered)}
-      onMouseLeave={() => setIsHovered(!isHovered)}
+      onMouseEnter={handlePlaceCardHover}
       className="cities__card place-card" key={id}
     >
       <div className={`place-card__mark ${offer.isPremium ? '' : 'visually-hidden'}`}>
