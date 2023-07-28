@@ -1,14 +1,28 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
-import { Offers } from '../../types';
+import { Offer, Offers, City } from '../../types';
+import Map from '../../components/map/map';
 
 type MainProps = {
   offersCount: number;
   offers: Offers;
+  city: City;
 }
 
-function Main ({offersCount, offers}: MainProps): JSX.Element {
+function Main ({offersCount, offers, city}: MainProps): JSX.Element {
+
+  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
+    undefined
+  );
+
+  const handleListItemHover = (id: string) => {
+    const currentPoint = offers.find((item) => item.id === id);
+
+    setSelectedPoint(currentPoint);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -111,10 +125,17 @@ function Main ({offersCount, offers}: MainProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <OffersList offers={offers} />
+              <OffersList
+                offers={offers}
+                onListItemHover={handleListItemHover}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map
+                city={city}
+                points={offers}
+                selectedPoint={selectedPoint}
+              />
             </div>
           </div>
         </div>
