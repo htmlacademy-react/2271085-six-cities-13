@@ -6,12 +6,13 @@ import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import useMap from '../../hooks/use-map/use-map';
 
 type MapProps = {
+  block: string;
   city: City;
   points: Offers;
   selectedPoint: Offer | undefined;
 }
 
-function Map({city, points, selectedPoint}: MapProps): JSX.Element {
+function Map({block, city, points, selectedPoint}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -55,7 +56,14 @@ function Map({city, points, selectedPoint}: MapProps): JSX.Element {
   return (
     <section
       ref={mapRef}
-      className="cities__map map"
+      className={`${block}__map map`}
+      style={{
+        height: '100%',
+        minHeight: '500px',
+        width: '100%',
+        maxWidth: '1144px',
+        margin: '0 auto',
+      }}
     />
   );
 }
