@@ -128,10 +128,12 @@ function Main ({offersCount, offers, city}: MainProps): JSX.Element {
               <OffersList
                 offers={offers}
                 onListItemHover={handleListItemHover}
+                className="cities__places-list places__list tabs__content"
               />
             </section>
             <div className="cities__right-section">
               <Map
+                block='cities'
                 city={city}
                 points={offers}
                 selectedPoint={selectedPoint}

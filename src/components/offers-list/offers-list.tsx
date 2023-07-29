@@ -3,17 +3,20 @@ import { Offers } from '../../types';
 
 type OffersListProps = {
   offers: Offers;
-  onListItemHover: (id: string) => void;
+  onListItemHover?: (id: string) => void;
+  className: string;
 };
 
-function OffersList({offers, onListItemHover}: OffersListProps) {
+function OffersList({offers, onListItemHover, className}: OffersListProps) {
 
   const handlePlaceCardHover = (id: string) => {
-    onListItemHover(id);
+    if (onListItemHover){
+      onListItemHover(id);
+    }
   };
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={className}>
       {offers.map((offer) => (
         <PlaceCard
           key={offer.id}
