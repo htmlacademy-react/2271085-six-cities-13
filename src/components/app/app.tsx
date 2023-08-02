@@ -5,20 +5,32 @@ import Offer from '../../pages/offer/offer';
 import Page404 from '../../pages/page404/page404';
 import PrivateRoute from '../private-route/private-route';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Offers, DetailedOffers, Comments, City } from '../../types';
+import { Offers, DetailedOffers, Comments, City } from '../../types/types';
+import { reducer } from '../../store/reducer';
+import { changeCity, setOffers, sortedOffersCity } from '../../store/action';
+import offers from '../../mocks/offers';
 
+
+import { useAppDispatch } from '../../hooks';
 
 type AppProps = {
   offersCount: number;
-  offers: Offers;
+  //offers: Offers;
   detailedOffers: DetailedOffers;
   comments: Comments;
   city: City;
 }
 
-function App({offersCount, offers, detailedOffers,comments, city}: AppProps): JSX.Element {
+function App({offersCount, detailedOffers,comments, city}: AppProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setOffers(offers));
+  }, [dispatch]);
 
   return (
     <HelmetProvider>

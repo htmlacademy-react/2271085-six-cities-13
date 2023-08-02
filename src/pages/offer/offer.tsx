@@ -5,7 +5,7 @@ import OfferImage from '../../components/offer-image/offer-image';
 import OfferInsideItem from '../../components/offer-inside-item/offer-inside-item';
 import ReviewItem from '../../components/reviews-item/reviews-item';
 import CommentForm from '../../components/comment-form/comment-form';
-import { DetailedOffers, Comments } from '../../types';
+import { DetailedOffers, Comments } from '../../types/types';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 

@@ -2,8 +2,11 @@ import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
-import { Offer, Offers, City } from '../../types';
+import { Offer, Offers, City } from '../../types/types';
 import Map from '../../components/map/map';
+import CityList from '../../components/city-list/city-list';
+import { useAppSelector } from '../../hooks';
+import { CitiesList } from '../../const';
 
 type MainProps = {
   offersCount: number;
@@ -16,6 +19,10 @@ function Main ({offersCount, offers, city}: MainProps): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
     undefined
   );
+
+  const activeCity = useAppSelector((state) => state.city);
+  //const sortOffers = useAppSelector((state) => state.sortOffers);
+  // console.log(sortOffers);
 
   const handleListItemHover = (id: string) => {
     const currentPoint = offers.find((item) => item.id === id);
@@ -60,38 +67,10 @@ function Main ({offersCount, offers, city}: MainProps): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CityList
+              cities={CitiesList}
+              currentCity={activeCity}
+            />
           </section>
         </div>
         <div className="cities">

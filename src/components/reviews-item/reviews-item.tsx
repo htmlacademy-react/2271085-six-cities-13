@@ -1,4 +1,4 @@
-import { Comment } from '../../types';
+import { Comment } from '../../types/types';
 
 function ReviewItem({comment}: {comment: Comment}): JSX.Element {
   return(
