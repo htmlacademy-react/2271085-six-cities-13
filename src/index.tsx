@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-import { Settings } from './const';
-import offers from './mocks/offers';
 import detailedOffers from './mocks/detailedOffers';
 import comments from './mocks/comments';
 import city from './mocks/city';
@@ -18,8 +16,6 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App
-        offersCount={Settings.Offers}
-        //offers={offers}
         detailedOffers={detailedOffers}
         comments={comments}
         city={city}

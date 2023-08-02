@@ -8,28 +8,26 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Offers, DetailedOffers, Comments, City } from '../../types/types';
-import { reducer } from '../../store/reducer';
-import { changeCity, setOffers, sortedOffersCity } from '../../store/action';
+import { DetailedOffers, Comments, City } from '../../types/types';
+import { setOffers, sortedOffersCity } from '../../store/action';
 import offers from '../../mocks/offers';
 
 
 import { useAppDispatch } from '../../hooks';
 
 type AppProps = {
-  offersCount: number;
-  //offers: Offers;
   detailedOffers: DetailedOffers;
   comments: Comments;
   city: City;
 }
 
-function App({offersCount, detailedOffers,comments, city}: AppProps): JSX.Element {
+function App({ detailedOffers,comments, city}: AppProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setOffers(offers));
+    dispatch(sortedOffersCity('Paris'));
   }, [dispatch]);
 
   return (
@@ -38,7 +36,7 @@ function App({offersCount, detailedOffers,comments, city}: AppProps): JSX.Elemen
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={ <Main offersCount={offersCount} offers={offers} city={city}/>}
+            element={ <Main city={city}/>}
           />
           <Route
             path={AppRoute.Login}
