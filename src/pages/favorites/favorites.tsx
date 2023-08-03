@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import FavoriteList from '../../components/favorites-list/favorites-list';
-import { Offers } from '../../types';
+import { Offers } from '../../types/types';
 
 type FavoritePageProps = {
   favoriteOffers: Offers;

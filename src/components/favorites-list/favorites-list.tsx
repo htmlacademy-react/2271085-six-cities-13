@@ -1,5 +1,5 @@
 import FavoriteCard from '../../components/favorites-card/favorites-card';
-import { Offers } from '../../types';
+import { Offers } from '../../types/types';
 
 type FavoriteOffersProps = {
   favoriteOffers: Offers;

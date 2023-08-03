@@ -1,4 +1,4 @@
-import { City } from '../types';
+import { City } from '../types/types';
 
 const city: City = {
   name: 'Amsterdam',

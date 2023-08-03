@@ -1,4 +1,4 @@
-import { Offer } from '../types';
+import { Offer } from '../types/types';
 
 const offers: Offer[] = [
   {
@@ -53,7 +53,7 @@ const offers: Offer[] = [
     type: 'Apartment',
     price: 132,
     city: {
-      name: 'Amsterdam',
+      name: 'Cologne',
       location: {
         latitude: 52.3909553943508,
         longitude: 4.929309666406198,
@@ -76,7 +76,7 @@ const offers: Offer[] = [
     type: 'Apartment',
     price: 180,
     city: {
-      name: 'Amsterdam',
+      name: 'Paris',
       location: {
         latitude: 52.3809553943508,
         longitude: 4.939309666406198,

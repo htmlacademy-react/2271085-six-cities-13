@@ -1,5 +1,5 @@
 import PlaceCard from '../place-card/place-card';
-import { Offers } from '../../types';
+import { Offers } from '../../types/types';
 
 type OffersListProps = {
   offers: Offers;
