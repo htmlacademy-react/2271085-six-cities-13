@@ -32,11 +32,14 @@ export const CitiesList = [
   'Dusseldorf'
 ];
 
+
+const ASSETS_BASE_UPL = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/';
+
 export const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+  `${ASSETS_BASE_UPL}/pin.svg`;
 
 export const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  `${ASSETS_BASE_UPL}/main-pin.svg`;
 
 
 export {Stars};
