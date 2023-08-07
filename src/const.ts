@@ -32,6 +32,8 @@ export const CitiesList = [
   'Dusseldorf'
 ];
 
+export const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 
 const ASSETS_BASE_UPL = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/';
 

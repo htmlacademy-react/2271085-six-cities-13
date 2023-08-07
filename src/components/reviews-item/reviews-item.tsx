@@ -1,6 +1,12 @@
 import { Comment } from '../../types/types';
+import { months } from '../../const';
 
 function ReviewItem({comment}: {comment: Comment}): JSX.Element {
+
+  const date = new Date(comment.date);
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
   return(
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -26,7 +32,7 @@ function ReviewItem({comment}: {comment: Comment}): JSX.Element {
           {comment.comment}
         </p>
         <time className="reviews__time" dateTime={comment.date}>
-          {comment.date}
+          {`${month} ${year}`}
         </time>
       </div>
     </li>

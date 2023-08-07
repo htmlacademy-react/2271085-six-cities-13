@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import FavoriteCard from '../../components/favorites-card/favorites-card';
 import { Offers } from '../../types/types';
 
@@ -14,9 +15,9 @@ function FavoriteList({favoriteOffers}: FavoriteOffersProps): JSX.Element {
         <li className="favorites__locations-items" key={cityName}>
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" to="#">
                 <span>{cityName}</span>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="favorites__places">
