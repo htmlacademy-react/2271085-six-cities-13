@@ -2,26 +2,23 @@ import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Logo from '../../components/logo/logo';
-import { Offer,City } from '../../types/types';
+import { Offer } from '../../types/types';
 import Map from '../../components/map/map';
 import CityList from '../../components/city-list/city-list';
 import { useAppSelector } from '../../hooks';
-import { CitiesList } from '../../const';
+import { CitiesList, CityMap } from '../../const';
 import { MainEmptyPage } from '../main-empty/main-empty';
 import FilterOffers from '../../components/filter-offers/filter-offers';
 import { Link } from 'react-router-dom';
 
-type MainProps = {
-  city: City;
-}
-
-function Main ({ city }: MainProps): JSX.Element {
+function Main (): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
     undefined
   );
 
   const activeCity = useAppSelector((state) => state.city);
   const sortedOffers = useAppSelector((state) => state.sortedOffers);
+  const city = CityMap[activeCity];
 
   const handleListItemHover = (id: string) => {
     const currentPoint = sortedOffers.find((item) => item.id === id);

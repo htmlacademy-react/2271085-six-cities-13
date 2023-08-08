@@ -6,7 +6,9 @@ import detailedOffers from './mocks/detailedOffers';
 import comments from './mocks/comments';
 import city from './mocks/city';
 import { store } from './store';
+import { fetchOffersAction } from './store/api-actions';
 
+store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

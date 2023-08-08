@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, setOffers, sortedOffersCity, filterOffers } from './action';
+import { changeCity, setOffers, sortedOffersCity, filterOffers, loadOffers, setOffersDataLoadingStatus } from './action';
 import { Offers } from '../types/types';
 
 type InitialState = {
@@ -7,6 +7,7 @@ type InitialState = {
   offers: Offers;
   sortedOffers: Offers;
   filterOffers: Offers;
+  isOffersDataLoading: boolean;
 }
 
 const initialState: InitialState = {
@@ -14,12 +15,13 @@ const initialState: InitialState = {
   offers: [],
   sortedOffers: [],
   filterOffers: [],
+  isOffersDataLoading: false,
 };
 
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setOffers,(state, action) => {
+    .addCase(setOffers,(state, action) => { //////// заменить на loadoffers в коде
       state.offers = action.payload;
     })
     .addCase(changeCity,(state, action) => {
@@ -42,6 +44,12 @@ const reducer = createReducer(initialState, (builder) => {
         default:
           state.filterOffers = state.sortedOffers;
       }
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
     });
 });
 
