@@ -49,7 +49,7 @@ function FilterOffers() {
       </span>
       <ul className={filterOfferClass}>
         {filterList.map((item, i) => {
-          const keyValue = `filter-${i}`;
+          const keyValue = `${item.name}-${i}`;
           return (
             <li
               key={keyValue}

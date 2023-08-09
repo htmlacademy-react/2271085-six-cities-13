@@ -5,30 +5,27 @@ import Offer from '../../pages/offer/offer';
 import Page404 from '../../pages/page404/page404';
 import PrivateRoute from '../private-route/private-route';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
-import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { DetailedOffers, Comments, City } from '../../types/types';
-import { setOffers, sortedOffersCity } from '../../store/action';
+import { DetailedOffers, Comments } from '../../types/types';
 import offers from '../../mocks/offers';
-
-
-import { useAppDispatch } from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import { useAppSelector } from '../../hooks';
 
 type AppProps = {
   detailedOffers: DetailedOffers;
   comments: Comments;
-  city: City;
 }
 
-function App({ detailedOffers,comments, city}: AppProps): JSX.Element {
+function App({ detailedOffers,comments}: AppProps): JSX.Element {
 
-  const dispatch = useAppDispatch();
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-  useEffect(() => {
-    dispatch(setOffers(offers));
-    dispatch(sortedOffersCity('Paris'));
-  }, [dispatch]);
+  if(isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <HelmetProvider>
@@ -36,7 +33,7 @@ function App({ detailedOffers,comments, city}: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={ <Main city={city}/>}
+            element={ <Main/>}
           />
           <Route
             path={AppRoute.Login}
