@@ -4,9 +4,12 @@ import { Provider } from 'react-redux';
 import App from './components/app/app';
 import detailedOffers from './mocks/detailedOffers';
 import comments from './mocks/comments';
-import city from './mocks/city';
+import {ToastContainer} from 'react-toastify';
 import { store } from './store';
-import { fetchOffersAction } from './store/api-actions';
+import { fetchOffersAction,checkAuthAction } from './store/api-actions';
+import 'react-toastify/dist/ReactToastify.css';
+
+store.dispatch(checkAuthAction());
 
 store.dispatch(fetchOffersAction());
 
@@ -17,10 +20,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer />
       <App
         detailedOffers={detailedOffers}
         comments={comments}
-        city={city}
       />
     </Provider>
   </React.StrictMode>

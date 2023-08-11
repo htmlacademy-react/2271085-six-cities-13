@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
-import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
 import { Offer } from '../../types/types';
 import Map from '../../components/map/map';
 import CityList from '../../components/city-list/city-list';
@@ -9,7 +9,6 @@ import { useAppSelector } from '../../hooks';
 import { CitiesList, CityMap } from '../../const';
 import { MainEmptyPage } from '../main-empty/main-empty';
 import FilterOffers from '../../components/filter-offers/filter-offers';
-import { Link } from 'react-router-dom';
 
 function Main (): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
@@ -31,34 +30,7 @@ function Main (): JSX.Element {
       <Helmet>
         <title>Six cities.Main page</title>
       </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <Logo />
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to="#">
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
       {
         sortedOffers.length ?
           <main className="page__main page__main--index">

@@ -4,7 +4,9 @@ import FavoritePage from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
 import Page404 from '../../pages/page404/page404';
 import PrivateRoute from '../private-route/private-route';
-import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import { Route, Routes} from 'react-router-dom';
+import HistoryRouter from '../history-router/history-router';
+import browserHistory from '../../browser-history';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { DetailedOffers, Comments } from '../../types/types';
@@ -19,9 +21,10 @@ type AppProps = {
 
 function App({ detailedOffers,comments}: AppProps): JSX.Element {
 
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-  if(isOffersDataLoading) {
+  if(authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -29,7 +32,7 @@ function App({ detailedOffers,comments}: AppProps): JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Main}
@@ -43,7 +46,7 @@ function App({ detailedOffers,comments}: AppProps): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth}
+                authorizationStatus={authorizationStatus}
               >
                 <FavoritePage favoriteOffers={offers}/>
               </PrivateRoute>
@@ -58,7 +61,7 @@ function App({ detailedOffers,comments}: AppProps): JSX.Element {
             element={<Page404 />}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
