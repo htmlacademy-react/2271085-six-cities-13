@@ -51,10 +51,21 @@ type User = {
   isPro: boolean;
 }
 
+type AuthData = {
+  login: string;
+  password: string;
+}
+
+type UserData = {
+  id: number;
+  email: string;
+  token: string;
+};
+
 type Offers = Offer[];
 
 type DetailedOffers = DetailedOffer[];
 
 type Comments = Comment[];
 
-export type { Offers, Offer, DetailedOffer, DetailedOffers, Comment, Comments, City};
+export type { Offers, Offer, DetailedOffer, DetailedOffers, Comment, Comments, City, AuthData, UserData};
