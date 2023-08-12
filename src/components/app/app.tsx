@@ -15,9 +15,8 @@ import { useAppSelector } from '../../hooks';
 function App(): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-  if(authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  if(authorizationStatus === AuthorizationStatus.Unknown) {
     return (
       <LoadingScreen />
     );
@@ -53,6 +52,10 @@ function App(): JSX.Element {
               }
             />
           </Route>
+          <Route
+            path='not-found'
+            element={<Page404 />}
+          />
           <Route
             path='*'
             element={<Page404 />}

@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchOfferAction } from '../../store/api-actions';
 import OfferImage from '../../components/offer-image/offer-image';
@@ -10,23 +10,29 @@ import CommentForm from '../../components/comment-form/comment-form';
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
-import Page404 from '../page404/page404';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-function Offer(): JSX.Element {
+function Offer(): JSX.Element | null{
   const { id } = useParams();
   const offer = useAppSelector((state) => state.currentOffer);
   const reviews = useAppSelector((state) => state.reviews);
   const offersNearby = useAppSelector((state) => state.offersNearby);
   const dispatch = useAppDispatch();
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
 
   useEffect(() => {
     dispatch(fetchOfferAction(id as string));
-  }, [dispatch, id]);
+  }, [id, dispatch]);
+
+  if(isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (!offer){
-    return (
-      <Page404 />
-    );
+    return <Navigate to='/not-found'/>;
   }
 
   return (
