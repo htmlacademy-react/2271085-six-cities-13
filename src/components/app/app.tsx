@@ -9,17 +9,10 @@ import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { DetailedOffers, Comments } from '../../types/types';
-import offers from '../../mocks/offers';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
 
-type AppProps = {
-  detailedOffers: DetailedOffers;
-  comments: Comments;
-}
-
-function App({ detailedOffers,comments}: AppProps): JSX.Element {
+function App(): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
@@ -48,14 +41,18 @@ function App({ detailedOffers,comments}: AppProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={authorizationStatus}
               >
-                <FavoritePage favoriteOffers={offers}/>
+                <FavoritePage />
               </PrivateRoute>
             }
           />
-          <Route
-            path={`${AppRoute.Offer}/:id`}
-            element={<Offer detailedOffers={detailedOffers} comments={comments}/>}
-          />
+          <Route path={AppRoute.Offer}>
+            <Route
+              path=':id'
+              element={
+                <Offer />
+              }
+            />
+          </Route>
           <Route
             path='*'
             element={<Page404 />}

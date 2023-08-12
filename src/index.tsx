@@ -21,10 +21,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
-      <App
-        detailedOffers={detailedOffers}
-        comments={comments}
-      />
+      <App />
     </Provider>
   </React.StrictMode>
 );

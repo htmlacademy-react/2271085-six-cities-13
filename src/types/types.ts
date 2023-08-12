@@ -39,10 +39,10 @@ type Host = {
 
 type Comment = {
   id: string;
-  date: string;
-  user: User;
   comment: string;
+  date: string;
   rating: number;
+  user: User;
 }
 
 type User = {

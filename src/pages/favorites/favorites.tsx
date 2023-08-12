@@ -4,11 +4,7 @@ import FavoriteList from '../../components/favorites-list/favorites-list';
 import { Offers } from '../../types/types';
 import { Link } from 'react-router-dom';
 
-type FavoritePageProps = {
-  favoriteOffers: Offers;
-}
-
-function FavoritePage({favoriteOffers}: FavoritePageProps): JSX.Element {
+function FavoritePage(): JSX.Element {
 
   return (
     <div className="page">
@@ -48,7 +44,6 @@ function FavoritePage({favoriteOffers}: FavoritePageProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
 
-            <FavoriteList favoriteOffers={favoriteOffers} />
 
           </section>
         </div>
