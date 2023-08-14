@@ -1,5 +1,7 @@
 import { City } from './types/types';
 
+export const MAX_REVIEWS_COUNT = 10;
+
 export const enum Settings{
   Offers = 10,
 }
@@ -92,6 +94,13 @@ export const CityMap: Record<string, City> = {
     }
   },
 } as const;
+
+export const enum RequestStatus {
+  Unsent = 'UNSENT',
+  Pending = 'PENDING',
+  Success = 'SUCCESS',
+  Error = 'ERROR'
+}
 
 export const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 

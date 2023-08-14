@@ -1,15 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, sortedOffersCity, filterOffers, loadOffers, setOffersDataLoadingStatus, requireAuthorization } from './action';
-import { Offers } from '../types/types';
-import { AuthorizationStatus } from '../const';
+import { changeCity, sortedOffersCity, filterOffers, loadOffers, loadOffer, loadReviews, addReview, loadOffersNearby, setOffersDataLoadingStatus, setDetailedOfferDataLoadingStatus, requireAuthorization, dropSendingStatus } from './action';
+import { Offers, DetailedOffer, Comments } from '../types/types';
+import { AuthorizationStatus, RequestStatus } from '../const';
+import { postReview } from './api-actions';
 
 type InitialState = {
   city: string;
   offers: Offers;
   sortedOffers: Offers;
   filterOffers: Offers;
+  currentOffer: DetailedOffer | null;
+  reviews: Comments;
+  offersNearby: Offers;
   isOffersDataLoading: boolean;
+  isDetailedOfferDataLoading: boolean;
   authorizationStatus: AuthorizationStatus;
+  sendingReviewStatus: string;
 }
 
 const initialState: InitialState = {
@@ -17,8 +23,13 @@ const initialState: InitialState = {
   offers: [],
   sortedOffers: [],
   filterOffers: [],
+  currentOffer: null,
+  reviews: [],
+  offersNearby: [],
   isOffersDataLoading: false,
+  isDetailedOfferDataLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
+  sendingReviewStatus: RequestStatus.Unsent,
 };
 
 
@@ -48,8 +59,35 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
     })
+    .addCase(setDetailedOfferDataLoadingStatus,(state, action) =>{
+      state.isDetailedOfferDataLoading = action.payload;
+    })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(loadOffer, (state, action) => {
+      state.currentOffer = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(loadOffersNearby, (state, action) => {
+      state.offersNearby = action.payload;
+    })
+    .addCase(postReview.pending, (state) => {
+      state.sendingReviewStatus = RequestStatus.Pending;
+    })
+    .addCase(postReview.fulfilled, (state) => {
+      state.sendingReviewStatus = RequestStatus.Success;
+    })
+    .addCase(postReview.rejected, (state) => {
+      state.sendingReviewStatus = RequestStatus.Error;
+    })
+    .addCase(dropSendingStatus, (state) => {
+      state.sendingReviewStatus = RequestStatus.Unsent;
+    })
+    .addCase(addReview, (state, action) => {
+      state.reviews.push(action.payload);
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
