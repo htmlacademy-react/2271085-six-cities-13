@@ -3,10 +3,11 @@ import { Stars } from '../../const';
 
 type RatingStarProps = {
   star: number;
+  disabled: boolean;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function RatingStar({star, onChange}: RatingStarProps): JSX.Element{
+function RatingStar({star, disabled, onChange}: RatingStarProps): JSX.Element{
   return (
     <Fragment>
       <input
@@ -15,6 +16,7 @@ function RatingStar({star, onChange}: RatingStarProps): JSX.Element{
         value={star}
         id={`${star}-stars`}
         type="radio"
+        disabled={disabled}
         onChange={(evt) => onChange(evt)}
       />
       <label

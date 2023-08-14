@@ -15,8 +15,9 @@ import { useAppSelector } from '../../hooks';
 function App(): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
-  if(authorizationStatus === AuthorizationStatus.Unknown) {
+  if(authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
       <LoadingScreen />
     );

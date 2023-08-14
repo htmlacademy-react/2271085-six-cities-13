@@ -11,25 +11,31 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { MAX_REVIEWS_COUNT } from '../../const';
 
-function Offer(): JSX.Element | null{
+function Offer(): JSX.Element {
   const { id } = useParams();
   const offer = useAppSelector((state) => state.currentOffer);
   const reviews = useAppSelector((state) => state.reviews);
   const offersNearby = useAppSelector((state) => state.offersNearby);
   const dispatch = useAppDispatch();
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const isDetailedOfferDataLoading = useAppSelector((state) => state.isDetailedOfferDataLoading);
+
+  const reviewsToRender = [...reviews]
+    .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0,MAX_REVIEWS_COUNT);
 
 
   useEffect(() => {
     dispatch(fetchOfferAction(id as string));
   }, [id, dispatch]);
 
-  if(isOffersDataLoading) {
+  if(isDetailedOfferDataLoading) {
     return (
       <LoadingScreen />
     );
   }
+
 
   if (!offer){
     return <Navigate to='/not-found'/>;
@@ -116,9 +122,9 @@ function Offer(): JSX.Element | null{
                   Reviews · <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ul className="reviews__list">
-                  {reviews.map((comment) => (<ReviewItem key={comment.id} comment={comment} />))}
+                  {reviewsToRender.map((comment) => (<ReviewItem key={comment.id} comment={comment} />))}
                 </ul>
-                <CommentForm />
+                <CommentForm id={id as string}/>
               </section>
             </div>
           </div>

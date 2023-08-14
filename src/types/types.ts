@@ -62,10 +62,20 @@ type UserData = {
   token: string;
 };
 
+type Review = {
+  reviewData: ReviewData;
+  id: string;
+}
+
+type ReviewData = {
+  rating: number;
+  comment: string;
+}
+
 type Offers = Offer[];
 
 type DetailedOffers = DetailedOffer[];
 
 type Comments = Comment[];
 
-export type { Offers, Offer, DetailedOffer, DetailedOffers, Comment, Comments, City, AuthData, UserData};
+export type { Offers, Offer, Review, ReviewData, DetailedOffer, DetailedOffers, Comment, Comments, City, AuthData, UserData};
