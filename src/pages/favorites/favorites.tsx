@@ -1,7 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import FavoriteList from '../../components/favorites-list/favorites-list';
-import { Offers } from '../../types/types';
 import { Link } from 'react-router-dom';
 
 function FavoritePage(): JSX.Element {

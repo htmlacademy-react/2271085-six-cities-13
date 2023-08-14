@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-import detailedOffers from './mocks/detailedOffers';
-import comments from './mocks/comments';
 import {ToastContainer} from 'react-toastify';
 import { store } from './store';
 import { fetchOffersAction,checkAuthAction } from './store/api-actions';
