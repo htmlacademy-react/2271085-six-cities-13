@@ -24,7 +24,7 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
   const isValid =
     comment.length >= MIN_COMMENT_LENGTH &&
     comment.length <= MAX_COMMENT_LENGTH &&
-    rating !== '';
+    rating;
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setRating(evt.target.value);
@@ -37,7 +37,7 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
   function handleFormSubmit(evt: FormEvent<HTMLFormElement>){
     evt.preventDefault();
     dispatch(
-      postReview({reviewData: {comment, rating: +rating}, id})
+      postReview({reviewData: {comment, rating: Number(rating)}, id})
     );
   }
 

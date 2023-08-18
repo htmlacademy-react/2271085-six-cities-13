@@ -11,23 +11,34 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { MAX_REVIEWS_COUNT } from '../../const';
+import { AuthorizationStatus, MAX_REVIEWS_COUNT } from '../../const';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
-  const offer = useAppSelector((state) => state.currentOffer);
-  const reviews = useAppSelector((state) => state.reviews);
-  const offersNearby = useAppSelector((state) => state.offersNearby);
+  // const offer = useAppSelector((state) => state.currentOffer);
+  // const reviews = useAppSelector((state) => state.reviews);
+  // const offersNearby = useAppSelector((state) => state.offersNearby);
+  const {offer, reviews, offersNearby} = useAppSelector((state) => ({
+    offer: state.currentOffer,
+    reviews: state.reviews,
+    offersNearby: state.offersNearby
+  }));
   const dispatch = useAppDispatch();
   const isDetailedOfferDataLoading = useAppSelector((state) => state.isDetailedOfferDataLoading);
+  const isAuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const reviewsToRender = [...reviews]
     .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0,MAX_REVIEWS_COUNT);
 
 
+  // useEffect(() => {
+  //   dispatch(fetchOfferAction(id as string));
+  // }, [id, dispatch]);
   useEffect(() => {
-    dispatch(fetchOfferAction(id as string));
+    if (id) {
+      dispatch(fetchOfferAction(id));
+    }
   }, [id, dispatch]);
 
   if(isDetailedOfferDataLoading) {
@@ -109,7 +120,7 @@ function Offer(): JSX.Element {
                     />
                   </div>
                   <span className="offer__user-name">{offer.host.name}</span>
-                  <span className="offer__user-status">{offer.host.isPro ? 'Pro' : ' '}</span>
+                  {offer.host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
@@ -124,7 +135,8 @@ function Offer(): JSX.Element {
                 <ul className="reviews__list">
                   {reviewsToRender.map((comment) => (<ReviewItem key={comment.id} comment={comment} />))}
                 </ul>
-                <CommentForm id={id as string}/>
+                {isAuthorizationStatus === AuthorizationStatus.Auth &&
+                <CommentForm id={id ?? ''} />}
               </section>
             </div>
           </div>
