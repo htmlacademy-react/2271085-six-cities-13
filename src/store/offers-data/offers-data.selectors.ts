@@ -18,7 +18,3 @@ export const getActiveCity = createSelector(
   (state: OffersData) => state.city
 );
 
-export const getSortedOffers = createSelector(
-  (state: State) => state[NameSpace.Offers],
-  (state: OffersData) => state.sortedOffers
-);

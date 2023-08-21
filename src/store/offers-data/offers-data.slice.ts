@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchOffersAction } from '../api-actions';
 import { NameSpace, CityMap, RequestStatus } from '../../const';
 import { OffersData } from '../../types/offers-data';
-import { City } from '../../types/types';
+import { City } from '../../types/offer-data';
 
 const initialState: OffersData = {
   offers: [],

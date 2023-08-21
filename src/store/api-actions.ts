@@ -6,6 +6,7 @@ import { loadOffer, setDetailedOfferDataLoadingStatus, redirectToRoute, loadRevi
 import {APIRoute, AppRoute, NameSpace } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthorizedUser } from '../types/user-data.js';
+import { DetailedOffers } from '../types/offer-data.js';
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined,{
   dispatch: AppDispatch;
@@ -15,27 +16,21 @@ export const fetchOffersAction = createAsyncThunk<Offers, undefined,{
   `${NameSpace.Offers}/fetchOffers`,
   async (_arg, { extra: api}) => {
     const { data } = await api.get<Offers>(APIRoute.Offers);
-    console.log('fetchOffers', data);
+
     return data;
   }
 );
 
-export const fetchOfferAction = createAsyncThunk<void, string,{
+export const fetchOfferAction = createAsyncThunk<DetailedOffer, Offer['id'],{
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/fetchOffer',
-  async (id, {dispatch, extra: api}) => {
-    dispatch(setDetailedOfferDataLoadingStatus(true));
-    const {data: dataOffer} = await api.get<DetailedOffer>(`${APIRoute.Offers}/${id}`);
-    const {data: dataReviews} = await api.get<Comments>(`${APIRoute.Comments}/${id}`);
-    const {data: dataOfferNearby} = await api.get<Offers>(`${APIRoute.Offers}/${id}/nearby`);
+  `${NameSpace.Offers}/fetchOffer`,
+  async (id, {extra: api}) => {
+    const { data } = await api.get<DetailedOffer>(`${APIRoute.Offers}/${id}`);
 
-    dispatch(loadOffer(dataOffer));
-    dispatch(loadReviews(dataReviews));
-    dispatch(loadOffersNearby(dataOfferNearby));
-    dispatch(setDetailedOfferDataLoadingStatus(false));
+    return data;
   }
 );
 

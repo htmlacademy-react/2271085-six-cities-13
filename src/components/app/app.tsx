@@ -8,7 +8,7 @@ import { Route, Routes} from 'react-router-dom';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import { HelmetProvider } from 'react-helmet-async';
-import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
+import { AppRoute, RequestStatus } from '../../const';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
