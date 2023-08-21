@@ -6,18 +6,27 @@ import { Offer } from '../../types/types';
 import Map from '../../components/map/map';
 import CityList from '../../components/city-list/city-list';
 import { useAppSelector } from '../../hooks';
-import { CitiesList, CityMap } from '../../const';
+import { CitiesList } from '../../const';
 import { MainEmptyPage } from '../main-empty/main-empty';
 import FilterOffers from '../../components/filter-offers/filter-offers';
+import { getActiveCity, getOffers} from '../../store/offers-data/offers-data.selectors';
+import { sorting } from '../../utils';
+
 
 function Main (): JSX.Element {
+
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
     undefined
   );
 
-  const activeCity = useAppSelector((state) => state.city);
-  const sortedOffers = useAppSelector((state) => state.sortedOffers);
-  const city = CityMap[activeCity];
+  const activeCity = useAppSelector(getActiveCity);
+  const offers = useAppSelector(getOffers);
+
+  const sortedOffers = offers
+    .slice()
+    .filter((item) => item.city.name === activeCity.name);
+
+  const [currentSort, setCurrenSort] = useState('popular');
 
   const handleListItemHover = (id: string) => {
     const currentPoint = sortedOffers.find((item) => item.id === id);
@@ -39,7 +48,7 @@ function Main (): JSX.Element {
               <section className="locations container">
                 <CityList
                   cities={CitiesList}
-                  currentCity={activeCity}
+                  currentCity={activeCity.name}
                 />
               </section>
             </div>
@@ -47,10 +56,10 @@ function Main (): JSX.Element {
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{sortedOffers.length} places to stay in {activeCity}</b>
-                  <FilterOffers />
+                  <b className="places__found">{sortedOffers.length} places to stay in {activeCity.name}</b>
+                  <FilterOffers onChange={(newSort) => setCurrenSort(newSort)} />
                   <OffersList
-                    offers={sortedOffers}
+                    offers={sorting[currentSort](sortedOffers)}
                     onListItemHover={handleListItemHover}
                     className="cities__places-list places__list tabs__content"
                   />
@@ -58,7 +67,7 @@ function Main (): JSX.Element {
                 <div className="cities__right-section">
                   <Map
                     block='cities'
-                    city={city}
+                    city={activeCity}
                     points={sortedOffers}
                     selectedPoint={selectedPoint}
                   />
@@ -73,7 +82,7 @@ function Main (): JSX.Element {
               <section className="locations container">
                 <CityList
                   cities={CitiesList}
-                  currentCity={activeCity}
+                  currentCity={activeCity.name}
                 />
               </section>
             </div>

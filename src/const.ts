@@ -102,6 +102,15 @@ export const enum RequestStatus {
   Error = 'ERROR'
 }
 
+export const enum NameSpace {
+  Offers = 'OFFERS',
+  Offer = 'OFFER',
+  Reviews = 'REVIEWS',
+  OffersNearby = 'OFFERS_NEARBY',
+  Favorites = 'FAVORITES',
+  User = 'USER'
+}
+
 export const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 

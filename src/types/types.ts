@@ -1,3 +1,5 @@
+import { User } from './user-data';
+
 type Offer = {
   id : string;
   title : string;
@@ -44,23 +46,6 @@ type Comment = {
   rating: number;
   user: User;
 }
-
-type User = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-}
-
-type AuthData = {
-  login: string;
-  password: string;
-}
-
-type UserData = {
-  id: number;
-  email: string;
-  token: string;
-};
 
 type Review = {
   reviewData: ReviewData;

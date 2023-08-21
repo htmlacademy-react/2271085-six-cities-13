@@ -15,9 +15,6 @@ import { AuthorizationStatus, MAX_REVIEWS_COUNT } from '../../const';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
-  // const offer = useAppSelector((state) => state.currentOffer);
-  // const reviews = useAppSelector((state) => state.reviews);
-  // const offersNearby = useAppSelector((state) => state.offersNearby);
   const {offer, reviews, offersNearby} = useAppSelector((state) => ({
     offer: state.currentOffer,
     reviews: state.reviews,
@@ -31,10 +28,6 @@ function Offer(): JSX.Element {
     .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0,MAX_REVIEWS_COUNT);
 
-
-  // useEffect(() => {
-  //   dispatch(fetchOfferAction(id as string));
-  // }, [id, dispatch]);
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));

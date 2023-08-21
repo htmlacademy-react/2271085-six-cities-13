@@ -1,6 +1,7 @@
 import { useAppDispatch } from '../../hooks';
 import classNames from 'classnames';
-import { changeCity, sortedOffersCity } from '../../store/action';
+import { changeCity } from '../../store/offers-data/offers-data.slice';
+import { CityMap } from '../../const';
 
 
 type CityListProps = {
@@ -25,8 +26,7 @@ function CityList({ cities, currentCity}: CityListProps): JSX.Element {
               href="#"
               onClick={(evt) => {
                 evt.preventDefault();
-                dispatch(changeCity(city));
-                dispatch(sortedOffersCity(city));
+                dispatch(changeCity(CityMap[city]));
               }}
             >
               <span>{city}</span>
