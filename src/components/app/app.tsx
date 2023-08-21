@@ -11,17 +11,19 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
+import { getFetchingStatusOffers } from '../../store/offers-data/offers-data.selectors';
 
 function App(): JSX.Element {
 
-  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
-  // const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getFetchingStatusOffers);
 
-  // if(isOffersDataLoading === RequestStatus.Pending) {
-  //   return (
-  //     <LoadingScreen />
-  //   );
-  // }
+  if(isOffersDataLoading === RequestStatus.Pending) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <HelmetProvider>
