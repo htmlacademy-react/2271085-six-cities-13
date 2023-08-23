@@ -1,4 +1,4 @@
-import { Offer } from '../../types/types';
+import { Offer } from '../../types/offer-data';
 import styles from './place-card.module.css';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';

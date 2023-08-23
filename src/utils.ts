@@ -1,4 +1,5 @@
-import { Offers, Offer } from './types/types';
+import { Offer } from './types/offer-data';
+import { Offers } from './types/offers-data';
 
 export const sorting: Record<string, (offers: Offers) => Offers> = {
   popular: (offers: Offers) => offers.slice(),

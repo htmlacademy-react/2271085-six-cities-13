@@ -1,7 +1,8 @@
 import { useAppSelector } from '../../hooks';
+import { getActiveCity } from '../../store/offers-data/offers-data.selectors';
 
 const MainEmptyPage = () => {
-  const selectedCity = useAppSelector((state) => state.city);
+  const selectedCity = useAppSelector(getActiveCity);
 
   return (
     <div className="cities">
@@ -10,7 +11,7 @@ const MainEmptyPage = () => {
           <div className="cities__status-wrapper tabs__content">
             <b className="cities__status">No places to stay available</b>
             <p className="cities__status-description">
-              We could not find any property available at the moment in {selectedCity}
+              We could not find any property available at the moment in {selectedCity.name}
             </p>
           </div>
         </section>

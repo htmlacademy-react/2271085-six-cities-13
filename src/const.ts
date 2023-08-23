@@ -1,4 +1,4 @@
-import { City } from './types/types';
+import { City } from './types/offer-data';
 
 export const MAX_REVIEWS_COUNT = 10;
 
@@ -44,8 +44,17 @@ export const CitiesList = [
   'Dusseldorf'
 ];
 
-export const CityMap: Record<string, City> = {
-  'Paris': {
+export const enum CityName {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf ='Dusseldorf'
+}
+
+export const CityMap: Record<CityName, City> = {
+  [CityName.Paris]: {
     name: 'Paris',
     location: {
       latitude: 48.85661,
@@ -53,7 +62,7 @@ export const CityMap: Record<string, City> = {
       zoom: 13
     }
   },
-  'Cologne': {
+  [CityName.Cologne]: {
     name: 'Cologne',
     location: {
       latitude: 50.938361,
@@ -61,7 +70,7 @@ export const CityMap: Record<string, City> = {
       zoom: 13
     }
   },
-  'Brussels': {
+  [CityName.Brussels]: {
     name: 'Brussels',
     location: {
       latitude: 50.846557,
@@ -69,7 +78,7 @@ export const CityMap: Record<string, City> = {
       zoom: 13
     }
   },
-  'Amsterdam': {
+  [CityName.Amsterdam]: {
     name: 'Amsterdam',
     location: {
       latitude: 52.37454,
@@ -77,7 +86,7 @@ export const CityMap: Record<string, City> = {
       zoom: 13
     }
   },
-  'Hamburg': {
+  [CityName.Hamburg]: {
     name: 'Hamburg',
     location: {
       latitude: 53.550341,
@@ -85,7 +94,7 @@ export const CityMap: Record<string, City> = {
       zoom: 13
     }
   },
-  'Dusseldorf': {
+  [CityName.Dusseldorf]: {
     name: 'Dusseldorf',
     location: {
       latitude: 51.225402,

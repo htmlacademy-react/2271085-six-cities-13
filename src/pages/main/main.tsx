@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Header from '../../components/header/header';
-import { Offer } from '../../types/types';
+import { Offer } from '../../types/offer-data';
 import Map from '../../components/map/map';
 import CityList from '../../components/city-list/city-list';
 import { useAppSelector } from '../../hooks';

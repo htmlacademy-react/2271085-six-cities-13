@@ -1,12 +1,15 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import { Offers, Offer, AuthData, DetailedOffer, Comments, Comment, ReviewData } from '../types/types.js';
-import { loadOffer, setDetailedOfferDataLoadingStatus, redirectToRoute, loadReviews, addReview, loadOffersNearby} from './action';
+import { Offer, DetailedOffer} from '../types/offer-data.js';
+import { AuthData } from '../types/user-data.js';
+import { Offers } from '../types/offers-data.js';
+import { Comment, ReviewData } from '../types/types.js';
+import { redirectToRoute, addReview} from './action';
 import {APIRoute, AppRoute, NameSpace } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthorizedUser } from '../types/user-data.js';
-import { DetailedOffers } from '../types/offer-data.js';
+
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined,{
   dispatch: AppDispatch;
