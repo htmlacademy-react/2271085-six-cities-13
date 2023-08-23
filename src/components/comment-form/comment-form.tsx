@@ -3,7 +3,8 @@ import RatingStar from '../rating-star/rating-star';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { postReview } from '../../store/api-actions';
 import { RequestStatus } from '../../const';
-import { dropSendingStatus } from '../../store/action';
+import { getSendingStatusReview } from '../../store/reviews-data/reviews-data.selectors';
+
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
@@ -19,7 +20,7 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useAppDispatch();
-  const sendingStatus = useAppSelector((state) => state.sendingReviewStatus);
+  const sendingStatus = useAppSelector(getSendingStatusReview);
 
   const isValid =
     comment.length >= MIN_COMMENT_LENGTH &&
@@ -55,7 +56,6 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
       case RequestStatus.Success:
         setComment('');
         setRating('');
-        dispatch(dropSendingStatus());
         break;
       case RequestStatus.Pending:
         setIsSubmitting(true);

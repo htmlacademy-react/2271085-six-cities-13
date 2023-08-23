@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchOfferAction } from '../../store/api-actions';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchReviewsAction } from '../../store/api-actions';
 import OfferImage from '../../components/offer-image/offer-image';
 import OfferInsideItem from '../../components/offer-inside-item/offer-inside-item';
 import ReviewItem from '../../components/reviews-item/reviews-item';
@@ -12,17 +12,20 @@ import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { AuthorizationStatus, MAX_REVIEWS_COUNT } from '../../const';
+import { getFetchingStatusOffer, getOffer } from '../../store/offer-data/offer-data.selectors';
+import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
+import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
+import { getNearbyOffers } from '../../store/nearby-data/nearby-data.selectors';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
-  const {offer, reviews, offersNearby} = useAppSelector((state) => ({
-    offer: state.currentOffer,
-    reviews: state.reviews,
-    offersNearby: state.offersNearby
-  }));
   const dispatch = useAppDispatch();
-  const isDetailedOfferDataLoading = useAppSelector((state) => state.isDetailedOfferDataLoading);
-  const isAuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isDetailedOfferDataLoading = useAppSelector(getFetchingStatusOffer);
+  const offer = useAppSelector(getOffer);
+  const reviews = useAppSelector(getReviews);
+  const offersNearby = useAppSelector(getNearbyOffers);
+  const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
+
 
   const reviewsToRender = [...reviews]
     .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -31,15 +34,16 @@ function Offer(): JSX.Element {
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));
+      dispatch(fetchReviewsAction(id));
+      dispatch(fetchOfferNearbyAction(id));
     }
   }, [id, dispatch]);
 
-  if(isDetailedOfferDataLoading) {
+  if(isDetailedOfferDataLoading !== 'SUCCESS') {
     return (
       <LoadingScreen />
     );
   }
-
 
   if (!offer){
     return <Navigate to='/not-found'/>;
