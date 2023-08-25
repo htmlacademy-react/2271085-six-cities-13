@@ -2,6 +2,7 @@ import { useAppDispatch } from '../../hooks';
 import classNames from 'classnames';
 import { changeCity } from '../../store/offers-data/offers-data.slice';
 import { CityMap } from '../../const';
+import { memo } from 'react';
 
 
 type CityListProps = {
@@ -38,4 +39,4 @@ function CityList({ cities, currentCity}: CityListProps): JSX.Element {
   );
 }
 
-export default CityList;
+export default memo(CityList);

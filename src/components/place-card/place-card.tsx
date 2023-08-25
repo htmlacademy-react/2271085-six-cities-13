@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Offer } from '../../types/offer-data';
 import styles from './place-card.module.css';
 import { Link } from 'react-router-dom';
@@ -56,5 +57,5 @@ function PlaceCard ({offer, handlePlaceCardHover}: PlaceCardProps): JSX.Element 
   );
 }
 
-export default PlaceCard;
+export default memo(PlaceCard);
 

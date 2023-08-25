@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Header from '../../components/header/header';
 import { Offer } from '../../types/offer-data';
@@ -22,17 +22,16 @@ function Main (): JSX.Element {
   const activeCity = useAppSelector(getActiveCity);
   const offers = useAppSelector(getOffers);
 
-  const sortedOffers = offers
-    .slice()
-    .filter((item) => item.city.name === activeCity.name);
+  const sortedOffers = useMemo(
+    () => offers.slice().filter((item) => item.city.name === activeCity.name),[activeCity,offers]);
 
   const [currentSort, setCurrenSort] = useState('popular');
 
-  const handleListItemHover = (id: string) => {
+  const handleListItemHover = useCallback((id: string) => {
     const currentPoint = sortedOffers.find((item) => item.id === id);
 
     setSelectedPoint(currentPoint);
-  };
+  }, [sortedOffers]);
 
   return (
     <div className="page page--gray page--main">

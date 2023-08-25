@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import PlaceCard from '../place-card/place-card';
 import { Offers } from '../../types/offers-data';
 
@@ -28,4 +29,4 @@ function OffersList({offers, onListItemHover, className}: OffersListProps) {
   );
 }
 
-export default OffersList;
+export default memo(OffersList);
