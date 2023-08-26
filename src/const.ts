@@ -113,6 +113,11 @@ export const enum NameSpace {
   User = 'USER'
 }
 
+export const enum FavoriteStatus {
+  Add = 1,
+  Delete = 0
+}
+
 export const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 

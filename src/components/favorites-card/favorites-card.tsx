@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer-data';
+import Bookmark from '../bookmark/bookmark';
+import { useState } from 'react';
 
 type FavoriteOffersProps = {
   offer: Offer;
 }
 
 function FavoriteCard ({offer}: FavoriteOffersProps): JSX.Element {
+  const {isFavorite} = offer;
+
+  const [activeFavorite, setActiveFavorite] = useState(isFavorite);
   return (
     <article className="favorites__card place-card">
       <div className={`place-card__mark ${offer.isPremium ? '' : 'visually-hidden'}`}>
@@ -30,19 +35,7 @@ function FavoriteCard ({offer}: FavoriteOffersProps): JSX.Element {
               /&nbsp;night
             </span>
           </div>
-          <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
-            type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
-            >
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <Bookmark id={offer.id} type='place-card' isFavorite={activeFavorite} onClick={() => setActiveFavorite((prev) => !prev)}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

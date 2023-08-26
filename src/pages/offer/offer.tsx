@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchOfferAction, fetchOfferNearbyAction, fetchReviewsAction } from '../../store/api-actions';
@@ -16,6 +16,7 @@ import { getFetchingStatusOffer, getOffer } from '../../store/offer-data/offer-d
 import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
 import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
 import { getNearbyOffers } from '../../store/nearby-data/nearby-data.selectors';
+import Bookmark from '../../components/bookmark/bookmark';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
@@ -25,6 +26,8 @@ function Offer(): JSX.Element {
   const reviews = useAppSelector(getReviews);
   const offersNearby = useAppSelector(getNearbyOffers);
   const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  const [activeFavorite, setActiveFavorite] = useState(offer?.isFavorite);
 
 
   const reviewsToRender = [...reviews]
@@ -71,12 +74,13 @@ function Offer(): JSX.Element {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <Bookmark
+                  id={offer.id}
+                  isFavorite={activeFavorite}
+                  type='offer'
+                  large
+                  onClick={() => setActiveFavorite((prev) => !prev)}
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">

@@ -1,53 +1,52 @@
 import { Helmet } from 'react-helmet-async';
-import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
 import { Link } from 'react-router-dom';
+import FavoriteCard from '../../components/favorites-card/favorites-card';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import { useAppSelector } from '../../hooks';
+import { getFavorites } from '../../store/favorites-data/favorites-data.selectors';
+import { AppRoute } from '../../const';
+
 
 function FavoritePage(): JSX.Element {
 
+  const favoriteOffers = useAppSelector(getFavorites);
+  const cities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
+
   return (
-    <div className="page">
+    <div className={favoriteOffers.length ? 'page' : 'page page--favorites-empty'}>
       <Helmet>
         <title>Six cities.Favorites</title>
       </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <Logo />
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to="#">
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
+      <Header />
+      {favoriteOffers.length ?
+        <main className="page__main page__main--favorites">
+          <div className="page__favorites-container container">
+            <section className="favorites">
+              <h1 className="favorites__title">Saved listing</h1>
+              <ul className="favorites__list">
+                {cities.map((city) => (
+                  <li className="favorites__locations-items" key={city}>
+                    <div className="favorites__locations locations locations--current">
+                      <div className="locations__item">
+                        <a className="locations__item-link" href="#">
+                          <span>{city}</span>
+                        </a>
+                      </div>
+                    </div>
+                    <div className="favorites__places">
+                      {favoriteOffers.filter((offer) => offer.city.name === city).map((offer) => <FavoriteCard offer={offer} key={offer.id}/>)}
+                    </div>
+                  </li>
+                ))}
               </ul>
-            </nav>
+            </section>
           </div>
-        </div>
-      </header>
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-
-
-          </section>
-        </div>
-      </main>
+        </main>
+        :
+        <FavoritesEmpty />}
       <footer className="footer container">
-        <Link className="footer__logo-link" to="main.html">
+        <Link className="footer__logo-link" to={AppRoute.Main}>
           <img
             className="footer__logo"
             src="img/logo.svg"

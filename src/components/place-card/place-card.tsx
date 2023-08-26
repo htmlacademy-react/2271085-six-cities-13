@@ -1,26 +1,48 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Offer } from '../../types/offer-data';
 import styles from './place-card.module.css';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import Bookmark from '../bookmark/bookmark';
+import classNames from 'classnames';
 
 type PlaceCardProps = {
   offer: Offer;
-  handlePlaceCardHover: () => void;
+  handlePlaceCardHover?: (id: string | null) => void;
+  favorite?: boolean;
 }
 
-function PlaceCard ({offer, handlePlaceCardHover}: PlaceCardProps): JSX.Element {
-  const { price, title, type, id, } = offer;
+function PlaceCard ({offer, favorite = false, handlePlaceCardHover}: PlaceCardProps): JSX.Element {
+  const { price, title, type, id, isFavorite} = offer;
+  const [activeFavorite, setActiveFavorite] = useState(isFavorite);
+
+  const handleCardMouseEnter = () => {
+    handlePlaceCardHover?.(id);
+  };
+  const handleCardMouseLeave = () => {
+    handlePlaceCardHover?.(null);
+  };
 
   return (
     <article
-      onMouseEnter={handlePlaceCardHover}
-      className="cities__card place-card" key={id}
+      onMouseEnter={handleCardMouseEnter}
+      onMouseLeave={handleCardMouseLeave}
+      className={classNames({
+        'place-card': true,
+        'cities__card': !favorite,
+        'favorites__card': favorite
+      })}
     >
       <div className={`place-card__mark ${offer.isPremium ? '' : 'visually-hidden'}`}>
         <span>Premium</span>
       </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div
+        className={classNames({
+          'place-card__image-wrapper': true,
+          'cities__image-wrapper': !favorite,
+          'favorites__image-wrapper': favorite
+        })}
+      >
         <Link to={`${AppRoute.Offer}/${offer.id}`}>
           <img
             className={styles['place-card__image']}
@@ -35,12 +57,12 @@ function PlaceCard ({offer, handlePlaceCardHover}: PlaceCardProps): JSX.Element 
             <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <Bookmark
+            id={id}
+            isFavorite={activeFavorite}
+            type='place-card'
+            onClick={() => setActiveFavorite((prev) => !prev)}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
