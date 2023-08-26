@@ -11,13 +11,13 @@ type DetailMessageType = {
   message: string;
 }
 
-const StatusCodeMapping: Record<number, boolean> = {
+const StatusCodeMap: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.UNAUTHORIZED]: true,
   [StatusCodes.NOT_FOUND]: true
 };
 
-const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) => StatusCodeMap[response.status];
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({

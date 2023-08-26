@@ -1,5 +1,6 @@
+import { memo, useCallback } from 'react';
 import PlaceCard from '../place-card/place-card';
-import { Offers } from '../../types/types';
+import { Offers } from '../../types/offers-data';
 
 type OffersListProps = {
   offers: Offers;
@@ -9,11 +10,11 @@ type OffersListProps = {
 
 function OffersList({offers, onListItemHover, className}: OffersListProps) {
 
-  const handlePlaceCardHover = (id: string) => {
+  const handlePlaceCardHover = useCallback((id: string) => () => {
     if (onListItemHover){
       onListItemHover(id);
     }
-  };
+  }, [onListItemHover]);
 
   return (
     <div className={className}>
@@ -21,11 +22,11 @@ function OffersList({offers, onListItemHover, className}: OffersListProps) {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          handlePlaceCardHover={() => handlePlaceCardHover(offer.id)}
+          handlePlaceCardHover={handlePlaceCardHover(offer.id)}
         />)
       )}
     </div>
   );
 }
 
-export default OffersList;
+export default memo(OffersList);

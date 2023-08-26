@@ -1,4 +1,4 @@
-import { City } from './types/types';
+import { City } from './types/offer-data';
 
 export const MAX_REVIEWS_COUNT = 10;
 
@@ -42,9 +42,11 @@ export const CitiesList = [
   'Amsterdam',
   'Hamburg',
   'Dusseldorf'
-];
+] as const;
 
-export const CityMap: Record<string, City> = {
+export type TCity = typeof CitiesList[number];
+
+export const CityMap: Record<TCity, City> = {
   'Paris': {
     name: 'Paris',
     location: {
@@ -100,6 +102,15 @@ export const enum RequestStatus {
   Pending = 'PENDING',
   Success = 'SUCCESS',
   Error = 'ERROR'
+}
+
+export const enum NameSpace {
+  Offers = 'OFFERS',
+  Offer = 'OFFER',
+  Reviews = 'REVIEWS',
+  OffersNearby = 'OFFERS_NEARBY',
+  Favorites = 'FAVORITES',
+  User = 'USER'
 }
 
 export const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

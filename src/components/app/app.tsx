@@ -8,16 +8,18 @@ import { Route, Routes} from 'react-router-dom';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import { HelmetProvider } from 'react-helmet-async';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, RequestStatus } from '../../const';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
+import { getFetchingStatusOffers } from '../../store/offers-data/offers-data.selectors';
 
 function App(): JSX.Element {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getFetchingStatusOffers);
 
-  if(authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  if(isOffersDataLoading === RequestStatus.Pending) {
     return (
       <LoadingScreen />
     );

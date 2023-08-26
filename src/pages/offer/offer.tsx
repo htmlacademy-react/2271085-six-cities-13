@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchOfferAction } from '../../store/api-actions';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchReviewsAction } from '../../store/api-actions';
 import OfferImage from '../../components/offer-image/offer-image';
 import OfferInsideItem from '../../components/offer-inside-item/offer-inside-item';
 import ReviewItem from '../../components/reviews-item/reviews-item';
@@ -11,31 +11,39 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { MAX_REVIEWS_COUNT } from '../../const';
+import { AuthorizationStatus, MAX_REVIEWS_COUNT } from '../../const';
+import { getFetchingStatusOffer, getOffer } from '../../store/offer-data/offer-data.selectors';
+import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
+import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
+import { getNearbyOffers } from '../../store/nearby-data/nearby-data.selectors';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
-  const offer = useAppSelector((state) => state.currentOffer);
-  const reviews = useAppSelector((state) => state.reviews);
-  const offersNearby = useAppSelector((state) => state.offersNearby);
   const dispatch = useAppDispatch();
-  const isDetailedOfferDataLoading = useAppSelector((state) => state.isDetailedOfferDataLoading);
+  const isDetailedOfferDataLoading = useAppSelector(getFetchingStatusOffer);
+  const offer = useAppSelector(getOffer);
+  const reviews = useAppSelector(getReviews);
+  const offersNearby = useAppSelector(getNearbyOffers);
+  const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
+
 
   const reviewsToRender = [...reviews]
     .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0,MAX_REVIEWS_COUNT);
 
-
   useEffect(() => {
-    dispatch(fetchOfferAction(id as string));
+    if (id) {
+      dispatch(fetchOfferAction(id));
+      dispatch(fetchReviewsAction(id));
+      dispatch(fetchOfferNearbyAction(id));
+    }
   }, [id, dispatch]);
 
-  if(isDetailedOfferDataLoading) {
+  if(isDetailedOfferDataLoading !== 'SUCCESS') {
     return (
       <LoadingScreen />
     );
   }
-
 
   if (!offer){
     return <Navigate to='/not-found'/>;
@@ -109,7 +117,7 @@ function Offer(): JSX.Element {
                     />
                   </div>
                   <span className="offer__user-name">{offer.host.name}</span>
-                  <span className="offer__user-status">{offer.host.isPro ? 'Pro' : ' '}</span>
+                  {offer.host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
@@ -124,7 +132,8 @@ function Offer(): JSX.Element {
                 <ul className="reviews__list">
                   {reviewsToRender.map((comment) => (<ReviewItem key={comment.id} comment={comment} />))}
                 </ul>
-                <CommentForm id={id as string}/>
+                {isAuthorizationStatus === AuthorizationStatus.Auth &&
+                <CommentForm id={id ?? ''} />}
               </section>
             </div>
           </div>

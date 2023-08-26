@@ -1,10 +1,12 @@
 import { useAppDispatch } from '../../hooks';
 import classNames from 'classnames';
-import { changeCity, sortedOffersCity } from '../../store/action';
+import { changeCity } from '../../store/offers-data/offers-data.slice';
+import { CityMap, TCity } from '../../const';
+import { memo } from 'react';
 
 
 type CityListProps = {
-  cities: string[];
+  cities: readonly TCity[];
   currentCity: string;
 }
 function CityList({ cities, currentCity}: CityListProps): JSX.Element {
@@ -14,6 +16,7 @@ function CityList({ cities, currentCity}: CityListProps): JSX.Element {
     <ul className="locations__list tabs__list">
       {cities.map((city, i) => {
         const keyValue = `${city}-${i}`;
+
         return (
           <li className="locations__item" key={keyValue}>
             <a
@@ -25,8 +28,7 @@ function CityList({ cities, currentCity}: CityListProps): JSX.Element {
               href="#"
               onClick={(evt) => {
                 evt.preventDefault();
-                dispatch(changeCity(city));
-                dispatch(sortedOffersCity(city));
+                dispatch(changeCity(CityMap[city]));
               }}
             >
               <span>{city}</span>
@@ -38,4 +40,4 @@ function CityList({ cities, currentCity}: CityListProps): JSX.Element {
   );
 }
 
-export default CityList;
+export default memo(CityList);
