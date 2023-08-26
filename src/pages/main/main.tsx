@@ -33,6 +33,8 @@ function Main (): JSX.Element {
     setSelectedPoint(currentPoint);
   }, [sortedOffers]);
 
+  const offersList = useMemo(() => sorting[currentSort](sortedOffers), [currentSort, sortedOffers]);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -58,7 +60,7 @@ function Main (): JSX.Element {
                   <b className="places__found">{sortedOffers.length} places to stay in {activeCity.name}</b>
                   <FilterOffers onChange={(newSort) => setCurrenSort(newSort)} />
                   <OffersList
-                    offers={sorting[currentSort](sortedOffers)}
+                    offers={offersList}
                     onListItemHover={handleListItemHover}
                     className="cities__places-list places__list tabs__content"
                   />

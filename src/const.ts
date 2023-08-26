@@ -42,19 +42,12 @@ export const CitiesList = [
   'Amsterdam',
   'Hamburg',
   'Dusseldorf'
-];
+] as const;
 
-export const enum CityName {
-  Paris = 'Paris',
-  Cologne = 'Cologne',
-  Brussels = 'Brussels',
-  Amsterdam = 'Amsterdam',
-  Hamburg = 'Hamburg',
-  Dusseldorf ='Dusseldorf'
-}
+export type TCity = typeof CitiesList[number];
 
-export const CityMap: Record<CityName, City> = {
-  [CityName.Paris]: {
+export const CityMap: Record<TCity, City> = {
+  'Paris': {
     name: 'Paris',
     location: {
       latitude: 48.85661,
@@ -62,7 +55,7 @@ export const CityMap: Record<CityName, City> = {
       zoom: 13
     }
   },
-  [CityName.Cologne]: {
+  'Cologne': {
     name: 'Cologne',
     location: {
       latitude: 50.938361,
@@ -70,7 +63,7 @@ export const CityMap: Record<CityName, City> = {
       zoom: 13
     }
   },
-  [CityName.Brussels]: {
+  'Brussels': {
     name: 'Brussels',
     location: {
       latitude: 50.846557,
@@ -78,7 +71,7 @@ export const CityMap: Record<CityName, City> = {
       zoom: 13
     }
   },
-  [CityName.Amsterdam]: {
+  'Amsterdam': {
     name: 'Amsterdam',
     location: {
       latitude: 52.37454,
@@ -86,7 +79,7 @@ export const CityMap: Record<CityName, City> = {
       zoom: 13
     }
   },
-  [CityName.Hamburg]: {
+  'Hamburg': {
     name: 'Hamburg',
     location: {
       latitude: 53.550341,
@@ -94,7 +87,7 @@ export const CityMap: Record<CityName, City> = {
       zoom: 13
     }
   },
-  [CityName.Dusseldorf]: {
+  'Dusseldorf': {
     name: 'Dusseldorf',
     location: {
       latitude: 51.225402,

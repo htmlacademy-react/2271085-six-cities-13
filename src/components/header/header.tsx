@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
+import { getAuthorizationStatus, getUser } from '../../store/user-data/user-data.selectors';
 
 function Header(): JSX.Element {
 
   const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
   const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
@@ -27,7 +28,7 @@ function Header(): JSX.Element {
                     >
                       <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                       <span className="header__user-name user__name">
-                        Oliver.conner@gmail.com
+                        {user?.email}
                       </span>
                       <span className="header__favorite-count">3</span>
                     </Link>
