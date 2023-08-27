@@ -4,6 +4,8 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { postReview } from '../../store/api-actions';
 import { RequestStatus } from '../../const';
 import { getSendingStatusReview } from '../../store/reviews-data/reviews-data.selectors';
+import { dropSendingStatusReview } from '../../store/reviews-data/reviews-data.slice';
+import { toast } from 'react-toastify';
 
 
 const MIN_COMMENT_LENGTH = 50;
@@ -56,9 +58,15 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
       case RequestStatus.Success:
         setComment('');
         setRating('');
+        dispatch(dropSendingStatusReview());
+        setIsSubmitting(false);
         break;
       case RequestStatus.Pending:
         setIsSubmitting(true);
+        break;
+      case RequestStatus.Error:
+        toast.warn('Комментарий не отправлен');
+        setIsSubmitting(false);
         break;
       default:
         setIsSubmitting(false);
@@ -70,8 +78,6 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
-      {sendingStatus === RequestStatus.Error &&
-        <p>Комментарий не отправлен</p>}
       <div className="reviews__rating-form form__rating">
         {ratingStarsItems}
       </div>

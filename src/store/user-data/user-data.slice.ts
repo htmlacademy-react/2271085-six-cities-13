@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace, AuthorizationStatus, RequestStatus } from '../../const';
+import { FetchingNameSpace, AuthorizationStatus, RequestStatus } from '../../const';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { UserData } from '../../types/user-data';
 
@@ -10,7 +10,7 @@ const initialState: UserData = {
 };
 
 export const userData = createSlice({
-  name: NameSpace.User,
+  name: FetchingNameSpace.User,
   initialState,
   reducers: {},
   extraReducers(builder) {
