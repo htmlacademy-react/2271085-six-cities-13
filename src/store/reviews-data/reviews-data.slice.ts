@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace, RequestStatus } from '../../const';
+import { FetchingNameSpace, RequestStatus } from '../../const';
 import { fetchReviewsAction, postReview } from '../api-actions';
 import { ReviewsData } from '../../types/reviews-data';
 
@@ -10,9 +10,13 @@ const initialState: ReviewsData = {
 };
 
 export const reviewsData = createSlice({
-  name: NameSpace.Reviews,
+  name: FetchingNameSpace.Reviews,
   initialState,
-  reducers: {},
+  reducers: {
+    dropSendingStatusReview(state) {
+      state.sendingStatusReview = RequestStatus.Unsent;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchReviewsAction.pending, (state) => {
@@ -28,11 +32,15 @@ export const reviewsData = createSlice({
       .addCase(postReview.pending, (state) => {
         state.sendingStatusReview = RequestStatus.Pending;
       })
-      .addCase(postReview.fulfilled, (state) => {
+      .addCase(postReview.fulfilled, (state,action) => {
         state.sendingStatusReview = RequestStatus.Success;
+        state.reviews.push(action.payload);
       })
       .addCase(postReview.rejected, (state) => {
         state.sendingStatusReview = RequestStatus.Error;
       });
   }
 });
+
+export const { dropSendingStatusReview} = reviewsData.actions;
+

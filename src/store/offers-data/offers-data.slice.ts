@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchOffersAction } from '../api-actions';
-import { NameSpace, RequestStatus, CityMap } from '../../const';
+import { fetchOffersAction, addFavorite, deleteFavorite } from '../api-actions';
+import { FetchingNameSpace, RequestStatus, CityMap } from '../../const';
 import { OffersData } from '../../types/offers-data';
 import { City } from '../../types/offer-data';
 
@@ -11,7 +11,7 @@ const initialState: OffersData = {
 };
 
 export const offersData = createSlice({
-  name: NameSpace.Offers,
+  name: FetchingNameSpace.Offers,
   initialState,
   reducers:{
     changeCity: (state, action: PayloadAction<City>) => {
@@ -29,6 +29,16 @@ export const offersData = createSlice({
       })
       .addCase(fetchOffersAction.rejected, (state) => {
         state.fetchingStatusOffers = RequestStatus.Error;
+      })
+      .addCase(addFavorite.fulfilled, (state, action) => {
+        const updateOffer = action.payload;
+        const currentOffer = state.offers.findIndex((offer) => offer.id === updateOffer.id);
+        state.offers[currentOffer].isFavorite = true;
+      })
+      .addCase(deleteFavorite.fulfilled, (state, action) => {
+        const updateOffer = action.payload;
+        const currentOffer = state.offers.findIndex((offer) => offer.id === updateOffer.id);
+        state.offers[currentOffer].isFavorite = false;
       });
   },
 });

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchOfferAction } from '../api-actions';
-import { NameSpace, RequestStatus } from '../../const';
+import { FetchingNameSpace, RequestStatus } from '../../const';
 import { OfferData } from '../../types/offer-data';
 
 const initialState: OfferData = {
@@ -9,7 +9,7 @@ const initialState: OfferData = {
 };
 
 export const offerData = createSlice({
-  name: NameSpace.Offer,
+  name: FetchingNameSpace.Offer,
   initialState,
   reducers: {},
   extraReducers(builder) {

@@ -29,10 +29,8 @@ function Bookmark({id, isFavorite,type, large = false, onClick}: BookmarkProps){
 
     if (isFavorite) {
       dispatch(deleteFavorite(id));
-      console.log('delete', isFavorite);
     } else {
       dispatch(addFavorite(id));
-      console.log('add', isFavorite);
     }
   };
 

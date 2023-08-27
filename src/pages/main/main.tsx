@@ -33,6 +33,8 @@ function Main (): JSX.Element {
     setSelectedPoint(currentPoint);
   }, [sortedOffers]);
 
+  const handleFilterOffersChange = useCallback((newSort: string) => setCurrenSort(newSort), []);
+
   const offersList = useMemo(() => sorting[currentSort](sortedOffers), [currentSort, sortedOffers]);
 
   return (
@@ -58,7 +60,7 @@ function Main (): JSX.Element {
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{sortedOffers.length} places to stay in {activeCity.name}</b>
-                  <FilterOffers onChange={(newSort) => setCurrenSort(newSort)} />
+                  <FilterOffers onChange={handleFilterOffersChange} />
                   <OffersList
                     offers={offersList}
                     onListItemHover={handleListItemHover}

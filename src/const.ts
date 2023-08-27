@@ -104,7 +104,7 @@ export const enum RequestStatus {
   Error = 'ERROR'
 }
 
-export const enum NameSpace {
+export const enum FetchingNameSpace {
   Offers = 'OFFERS',
   Offer = 'OFFER',
   Reviews = 'REVIEWS',

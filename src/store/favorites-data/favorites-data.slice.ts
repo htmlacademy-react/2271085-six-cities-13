@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace, RequestStatus } from '../../const';
+import { FetchingNameSpace, RequestStatus } from '../../const';
 import { FavoritesData } from '../../types/favorites-data';
 import { fetchFavoritesAction, addFavorite, deleteFavorite } from '../api-actions';
 
@@ -9,7 +9,7 @@ const initialState: FavoritesData = {
 };
 
 export const favoritesData = createSlice({
-  name: NameSpace.Favorites,
+  name: FetchingNameSpace.Favorites,
   initialState,
   reducers: {},
   extraReducers(builder) {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace, RequestStatus } from '../../const';
+import { FetchingNameSpace, RequestStatus } from '../../const';
 import { fetchOfferNearbyAction} from '../api-actions';
 import { NearbyData } from '../../types/nearby-data';
 
@@ -9,7 +9,7 @@ const initialState: NearbyData = {
 };
 
 export const nearbyData = createSlice({
-  name: NameSpace.Offer,
+  name: FetchingNameSpace.Offer,
   initialState,
   reducers:{},
   extraReducers(builder) {
