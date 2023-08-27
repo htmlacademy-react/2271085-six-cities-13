@@ -16,6 +16,7 @@ import { getFetchingStatusOffer, getOffer } from '../../store/offer-data/offer-d
 import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
 import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
 import { getNearbyOffers } from '../../store/nearby-data/nearby-data.selectors';
+import { getOffers } from '../../store/offers-data/offers-data.selectors';
 import Bookmark from '../../components/bookmark/bookmark';
 
 function Offer(): JSX.Element {
@@ -23,11 +24,19 @@ function Offer(): JSX.Element {
   const dispatch = useAppDispatch();
   const isDetailedOfferDataLoading = useAppSelector(getFetchingStatusOffer);
   const offer = useAppSelector(getOffer);
+  const offers = useAppSelector(getOffers);
   const reviews = useAppSelector(getReviews);
   const offersNearby = useAppSelector(getNearbyOffers);
+  const currentOffer = offers.find((item) => item.id === id);
+  const randomNearbyOffers = offersNearby.slice(0, 3);
+  const randomNearbyMap = offersNearby.slice(0,3);
   const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const [activeFavorite, setActiveFavorite] = useState(offer?.isFavorite);
+
+  if (currentOffer) {
+    randomNearbyMap.push(currentOffer);
+  }
 
 
   const reviewsToRender = [...reviews]
@@ -144,8 +153,8 @@ function Offer(): JSX.Element {
           <Map
             block='offer'
             city={offer.city}
-            points={offersNearby}
-            selectedPoint={undefined}
+            points={randomNearbyMap}
+            selectedPoint={currentOffer}
           />
         </section>
         <div className="container">
@@ -154,7 +163,7 @@ function Offer(): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <OffersList
-              offers={offersNearby}
+              offers={randomNearbyOffers}
 
               className="near-places__list places__list"
             />

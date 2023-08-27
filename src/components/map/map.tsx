@@ -31,6 +31,9 @@ function Map({block, city, points, selectedPoint}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
+  console.log('points',points);
+  console.log('selectedPoint', selectedPoint);
+
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
