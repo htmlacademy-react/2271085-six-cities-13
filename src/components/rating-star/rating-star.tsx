@@ -5,9 +5,10 @@ type RatingStarProps = {
   star: number;
   disabled: boolean;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  checked: boolean;
 }
 
-function RatingStar({star, disabled, onChange}: RatingStarProps): JSX.Element{
+function RatingStar({star, disabled, onChange, checked}: RatingStarProps): JSX.Element{
   return (
     <Fragment>
       <input
@@ -18,6 +19,7 @@ function RatingStar({star, disabled, onChange}: RatingStarProps): JSX.Element{
         type="radio"
         disabled={disabled}
         onChange={(evt) => onChange(evt)}
+        checked={checked}
       />
       <label
         htmlFor={`${star}-stars`}
