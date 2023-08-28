@@ -42,6 +42,7 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
     dispatch(
       postReview({reviewData: {comment, rating: Number(rating)}, id})
     );
+    setRating('0');
   }
 
   const ratingStarsItems = [5,4,3,2,1].map((star) => (
@@ -50,27 +51,36 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
       star={star}
       disabled={isSubmitting}
       onChange={handleRatingChange}
+      checked={Number(rating) === star}
     />
   ));
 
   useEffect(() => {
-    switch (sendingStatus) {
-      case RequestStatus.Success:
-        setComment('');
-        setRating('');
-        dispatch(dropSendingStatusReview());
-        setIsSubmitting(false);
-        break;
-      case RequestStatus.Pending:
-        setIsSubmitting(true);
-        break;
-      case RequestStatus.Error:
-        toast.warn('Комментарий не отправлен');
-        setIsSubmitting(false);
-        break;
-      default:
-        setIsSubmitting(false);
+    let isMounted = true;
+
+    if (isMounted) {
+      switch (sendingStatus) {
+        case RequestStatus.Success:
+          setComment('');
+          setRating('');
+          dispatch(dropSendingStatusReview());
+          setIsSubmitting(false);
+          break;
+        case RequestStatus.Pending:
+          setIsSubmitting(true);
+          break;
+        case RequestStatus.Error:
+          toast.warn('Комментарий не отправлен');
+          setIsSubmitting(false);
+          break;
+        default:
+          setIsSubmitting(false);
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [sendingStatus, dispatch]);
 
   return (
