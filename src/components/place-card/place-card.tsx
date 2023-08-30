@@ -3,6 +3,7 @@ import { Offer } from '../../types/offer-data';
 import styles from './place-card.module.css';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { capitalizedString } from '../../utils';
 import Bookmark from '../bookmark/bookmark';
 import classNames from 'classnames';
 
@@ -71,9 +72,9 @@ function PlaceCard ({offer, favorite = false, handlePlaceCardHover}: PlaceCardPr
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${AppRoute.Offer}/${offer.id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalizedString(type)}</p>
       </div>
     </article>
   );

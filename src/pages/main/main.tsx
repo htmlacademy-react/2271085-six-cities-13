@@ -1,19 +1,26 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Header from '../../components/header/header';
 import { Offer } from '../../types/offer-data';
 import Map from '../../components/map/map';
 import CityList from '../../components/city-list/city-list';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch} from '../../hooks';
 import { CitiesList } from '../../const';
 import { MainEmptyPage } from '../main-empty/main-empty';
 import FilterOffers from '../../components/filter-offers/filter-offers';
 import { getActiveCity, getOffers} from '../../store/offers-data/offers-data.selectors';
 import { sorting } from '../../utils';
+import { fetchFavoritesAction } from '../../store/api-actions';
 
 
 function Main (): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
     undefined
