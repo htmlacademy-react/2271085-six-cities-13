@@ -34,7 +34,7 @@ function Main (): JSX.Element {
 
   const [currentSort, setCurrenSort] = useState('popular');
 
-  const handleListItemHover = useCallback((id: string) => {
+  const handleListItemHover = useCallback((id: string | null) => {
     const currentPoint = sortedOffers.find((item) => item.id === id);
 
     setSelectedPoint(currentPoint);
