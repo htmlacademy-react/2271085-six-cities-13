@@ -1,7 +1,7 @@
 import { Comment } from '../../types/types';
 import { months } from '../../const';
 
-function ReviewItem({comment}: {comment: Comment}): JSX.Element {
+function ReviewItem({comment, avatarUrl}: {comment: Comment; avatarUrl: string}): JSX.Element {
 
   const date = new Date(comment.date);
   const month = months[date.getMonth()];
@@ -13,7 +13,7 @@ function ReviewItem({comment}: {comment: Comment}): JSX.Element {
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
             className="reviews__avatar user__avatar"
-            src="img/avatar-max.jpg"
+            src={avatarUrl}
             width={54}
             height={54}
             alt="Reviews avatar"

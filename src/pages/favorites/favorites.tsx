@@ -3,15 +3,22 @@ import Header from '../../components/header/header';
 import { Link } from 'react-router-dom';
 import FavoriteCard from '../../components/favorites-card/favorites-card';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFavorites } from '../../store/favorites-data/favorites-data.selectors';
 import { AppRoute } from '../../const';
+import { useEffect } from 'react';
+import { fetchFavoritesAction } from '../../store/api-actions';
 
 
 function FavoritePage(): JSX.Element {
 
   const favoriteOffers = useAppSelector(getFavorites);
   const cities = Array.from(new Set(favoriteOffers.map((offer) => offer.city.name)));
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  },[dispatch]);
 
   return (
     <div className={favoriteOffers.length ? 'page' : 'page page--favorites-empty'}>

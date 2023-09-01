@@ -33,12 +33,17 @@ export const offersData = createSlice({
       .addCase(addFavorite.fulfilled, (state, action) => {
         const updateOffer = action.payload;
         const currentOffer = state.offers.findIndex((offer) => offer.id === updateOffer.id);
-        state.offers[currentOffer].isFavorite = true;
+        if (currentOffer > -1) {
+          state.offers[currentOffer].isFavorite = true;
+        }
       })
       .addCase(deleteFavorite.fulfilled, (state, action) => {
         const updateOffer = action.payload;
         const currentOffer = state.offers.findIndex((offer) => offer.id === updateOffer.id);
-        state.offers[currentOffer].isFavorite = false;
+
+        if (currentOffer > -1) {
+          state.offers[currentOffer].isFavorite = false;
+        }
       });
   },
 });
