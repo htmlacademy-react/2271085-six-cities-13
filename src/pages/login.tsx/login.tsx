@@ -1,13 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import {useRef, FormEvent, useState } from 'react';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
 import { getRandomCity } from '../../utils';
-import { CityMap, AppRoute } from '../../const';
+import { CityMap, AppRoute, AuthorizationStatus } from '../../const';
 import { changeCity } from '../../store/offers-data/offers-data.slice';
+import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
 
 
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z-A-Z]).{2,}$/;
@@ -19,6 +20,7 @@ function Login() : JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -53,6 +55,10 @@ function Login() : JSX.Element {
     dispatch(changeCity(randomCity));
     navigate(AppRoute.Main);
   };
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Navigate to='/' />;
+  }
 
 
   return (
@@ -125,3 +131,4 @@ function Login() : JSX.Element {
 }
 
 export default Login;
+

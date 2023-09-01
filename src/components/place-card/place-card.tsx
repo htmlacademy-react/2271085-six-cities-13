@@ -34,12 +34,12 @@ function PlaceCard ({offer, handlePlaceCardHover}: PlaceCardProps): JSX.Element 
       className={classNames({
         'place-card': true,
         'cities__card': true,
-       // 'favorites__card': activeFavorite
       })}
     >
-      <div className={`place-card__mark ${offer.isPremium ? '' : 'visually-hidden'}`}>
-        <span>Premium</span>
-      </div>
+      {offer.isPremium &&
+        <div className={'place-card__mark'}>
+          <span>Premium</span>
+        </div>}
       <div
         className={classNames({
           'place-card__image-wrapper': true,
@@ -48,7 +48,7 @@ function PlaceCard ({offer, handlePlaceCardHover}: PlaceCardProps): JSX.Element 
       >
         <Link to={`${AppRoute.Offer}/${offer.id}`}>
           <img
-            className={styles['place-card__image']}
+            className={`${styles['place-card__image']} place-card__image`}
             src={offer.previewImage}
             alt="Place image"
           />
@@ -57,18 +57,17 @@ function PlaceCard ({offer, handlePlaceCardHover}: PlaceCardProps): JSX.Element 
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">{price}</b>
+            <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <Bookmark
             id={id}
-            isFavorite={activeFavorite}
             type='place-card'
           />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${String(offer.rating / 5 * 100)}%`}} />
+            <span style={{ width: `${String((100 / 5) * Math.round(offer?.rating || 0))}%`}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

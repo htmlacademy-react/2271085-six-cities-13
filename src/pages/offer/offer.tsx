@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useMemo } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
+import classNames from 'classnames';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchOfferAction, fetchOfferNearbyAction, fetchReviewsAction, fetchFavoritesAction } from '../../store/api-actions';
 import OfferImage from '../../components/offer-image/offer-image';
@@ -47,7 +48,7 @@ function Offer(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const ratingLength = `${(100 / 5) * Math.round(currentOffer?.rating || 0)}%`;
+  const ratingLength = `${(100 / 5) * Math.round(offer?.rating || 0)}%`;
 
   if (currentOffer) {
     randomNearbyMap.push(currentOffer);
@@ -109,9 +110,9 @@ function Offer(): JSX.Element {
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{capitalizedString(offer.type)}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offer.bedrooms} Bedrooms
+                  {offer.bedrooms} Bedroom{offer.bedrooms === 1 ? '' : 's'}
                 </li>
-                <li className="offer__feature offer__feature--adults">Max {offer.maxAdults} adults
+                <li className="offer__feature offer__feature--adults">Max {offer.maxAdults} adult{offer.maxAdults === 1 ? '' : 's'}
                 </li>
               </ul>
               <div className="offer__price">
@@ -127,10 +128,15 @@ function Offer(): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={classNames({
+                    'offer__avatar-wrapper': true,
+                    'user__avatar-wrapper': true,
+                    'offer__avatar-wrapper--pro': offer.host.isPro,
+                  })}
+                  >
                     <img
                       className="offer__avatar user__avatar"
-                      src="img/avatar-angelina.jpg"
+                      src={offer.host.avatarUrl}
                       width={74}
                       height={74}
                       alt="Host avatar"

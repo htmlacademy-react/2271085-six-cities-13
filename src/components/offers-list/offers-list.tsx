@@ -4,13 +4,13 @@ import { Offers } from '../../types/offers-data';
 
 type OffersListProps = {
   offers: Offers;
-  onListItemHover?: (id: string) => void;
+  onListItemHover?: (id: string | null) => void;
   className: string;
 };
 
 function OffersList({offers, onListItemHover, className}: OffersListProps) {
 
-  const handlePlaceCardHover = useCallback((id: string) => () => {
+  const handlePlaceCardHover = useCallback((id: string | null) => {
     if (onListItemHover){
       onListItemHover(id);
     }
@@ -22,7 +22,7 @@ function OffersList({offers, onListItemHover, className}: OffersListProps) {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          handlePlaceCardHover={handlePlaceCardHover(offer.id)}
+          handlePlaceCardHover={handlePlaceCardHover}
         />)
       )}
     </div>

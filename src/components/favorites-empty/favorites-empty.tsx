@@ -1,6 +1,6 @@
 function FavoritesEmpty() {
   return (
-    <div className="page__favorites-container container">
+    <div className="page__favorites-container page__main--favorites-empty container">
       <section className="favorites favorites--empty">
         <h1 className="visually-hidden">Favorites (empty)</h1>
         <div className="favorites__status-wrapper">
