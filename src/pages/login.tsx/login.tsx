@@ -115,7 +115,7 @@ function Login() : JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-            <button
+              <button
                 type='button'
                 className="locations__item-link"
                 onClick={handleButtonRandomClick}
