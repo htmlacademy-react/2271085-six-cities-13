@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchOfferAction, fetchOfferNearbyAction, fetchReviewsAction } from '../../store/api-actions';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchReviewsAction, fetchFavoritesAction } from '../../store/api-actions';
 import OfferImage from '../../components/offer-image/offer-image';
 import OfferInsideItem from '../../components/offer-inside-item/offer-inside-item';
 import ReviewItem from '../../components/reviews-item/reviews-item';
@@ -11,13 +11,15 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { AuthorizationStatus, MAX_REVIEWS_COUNT } from '../../const';
+import { AuthorizationStatus, MAX_REVIEWS_COUNT, MAX_RENDER_OFFER_IMAGES_COUNT } from '../../const';
 import { getFetchingStatusOffer, getOffer } from '../../store/offer-data/offer-data.selectors';
 import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
 import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
 import { getNearbyOffers } from '../../store/nearby-data/nearby-data.selectors';
 import { getOffers } from '../../store/offers-data/offers-data.selectors';
 import Bookmark from '../../components/bookmark/bookmark';
+import { capitalizedString } from '../../utils';
+import { getFavorites } from '../../store/favorites-data/favorites-data.selectors';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
@@ -32,7 +34,18 @@ function Offer(): JSX.Element {
   const randomNearbyMap = offersNearby.slice(0,3);
   const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const [activeFavorite, setActiveFavorite] = useState(offer?.isFavorite);
+  const favorites = useAppSelector(getFavorites);
+
+  const isFavorite = useMemo(() => favorites.some((favorite) => favorite.id === id), [favorites, id]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferAction(id));
+      dispatch(fetchReviewsAction(id));
+      dispatch(fetchOfferNearbyAction(id));
+      dispatch(fetchFavoritesAction());
+    }
+  }, [id, dispatch]);
 
   if (currentOffer) {
     randomNearbyMap.push(currentOffer);
@@ -43,13 +56,6 @@ function Offer(): JSX.Element {
     .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0,MAX_REVIEWS_COUNT);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchOfferAction(id));
-      dispatch(fetchReviewsAction(id));
-      dispatch(fetchOfferNearbyAction(id));
-    }
-  }, [id, dispatch]);
 
   if(isDetailedOfferDataLoading !== 'SUCCESS') {
     return (
@@ -71,7 +77,7 @@ function Offer(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer.images.map((image) => (<OfferImage key={image} imageUrl={image} />))}
+              {offer.images.slice(0,MAX_RENDER_OFFER_IMAGES_COUNT).map((image) => (<OfferImage key={image} imageUrl={image} />))}
             </div>
           </div>
           <div className="offer__container container">
@@ -85,10 +91,9 @@ function Offer(): JSX.Element {
                 </h1>
                 <Bookmark
                   id={offer.id}
-                  isFavorite={activeFavorite}
+                  isFavorite={isFavorite}
                   type='offer'
                   large
-                  onClick={() => setActiveFavorite((prev) => !prev)}
                 />
               </div>
               <div className="offer__rating rating">
@@ -99,16 +104,15 @@ function Offer(): JSX.Element {
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{offer.type}</li>
+                <li className="offer__feature offer__feature--entire">{capitalizedString(offer.type)}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offer.bedrooms}
+                  {offer.bedrooms} Bedrooms
                 </li>
-                <li className="offer__feature offer__feature--adults">
-                  {offer.maxAdults}
+                <li className="offer__feature offer__feature--adults">Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">{offer.price}</b>
+                <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">

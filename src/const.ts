@@ -2,6 +2,8 @@ import { City } from './types/offer-data';
 
 export const MAX_REVIEWS_COUNT = 10;
 
+export const MAX_RENDER_OFFER_IMAGES_COUNT = 6;
+
 export const enum Settings{
   Offers = 10,
 }

@@ -7,3 +7,6 @@ export const sorting: Record<string, (offers: Offers) => Offers> = {
   low: (offers: Offers) => offers.slice().sort((a: Offer, b: Offer) => b.price - a.price),
   top: (offers: Offers) => offers.slice().sort((a: Offer, b: Offer) => b.rating - a.rating),
 };
+
+export const capitalizedString = (string: string) =>
+  `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
