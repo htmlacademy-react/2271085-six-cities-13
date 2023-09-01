@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchOfferAction, fetchOfferNearbyAction, fetchReviewsAction, fetchFavoritesAction } from '../../store/api-actions';
@@ -19,6 +19,7 @@ import { getNearbyOffers } from '../../store/nearby-data/nearby-data.selectors';
 import { getOffers } from '../../store/offers-data/offers-data.selectors';
 import Bookmark from '../../components/bookmark/bookmark';
 import { capitalizedString } from '../../utils';
+import { getFavorites } from '../../store/favorites-data/favorites-data.selectors';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
@@ -33,6 +34,10 @@ function Offer(): JSX.Element {
   const randomNearbyMap = offersNearby.slice(0,3);
   const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
 
+  const favorites = useAppSelector(getFavorites);
+
+  const isFavorite = useMemo(() => favorites.some((favorite) => favorite.id === id), [favorites, id]);
+
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));
@@ -41,9 +46,6 @@ function Offer(): JSX.Element {
       dispatch(fetchFavoritesAction());
     }
   }, [id, dispatch]);
-
-  const [activeFavorite, setActiveFavorite] = useState(currentOffer?.isFavorite);
-
 
   if (currentOffer) {
     randomNearbyMap.push(currentOffer);
@@ -89,10 +91,9 @@ function Offer(): JSX.Element {
                 </h1>
                 <Bookmark
                   id={offer.id}
-                  isFavorite={activeFavorite}
+                  isFavorite={isFavorite}
                   type='offer'
                   large
-                  onClick={() => setActiveFavorite((prev) => !prev)}
                 />
               </div>
               <div className="offer__rating rating">
