@@ -11,10 +11,9 @@ type BookmarkProps = {
   isFavorite?: Offer['isFavorite'];
   type: string;
   large?: boolean;
-  onClick: () => void;
 }
 
-function Bookmark({id, isFavorite,type, large = false, onClick}: BookmarkProps){
+function Bookmark({id, isFavorite,type, large = false }: BookmarkProps){
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -24,8 +23,6 @@ function Bookmark({id, isFavorite,type, large = false, onClick}: BookmarkProps){
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.Login);
     }
-
-    onClick();
 
     if (isFavorite) {
       dispatch(deleteFavorite(id));
