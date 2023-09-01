@@ -8,10 +8,10 @@ import OfferInsideItem from '../../components/offer-inside-item/offer-inside-ite
 import ReviewItem from '../../components/reviews-item/reviews-item';
 import CommentForm from '../../components/comment-form/comment-form';
 import Header from '../../components/header/header';
-import Map from '../../components/map/map';
+import Map from '../../components/map/map.module';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { AuthorizationStatus, MAX_REVIEWS_COUNT, MAX_RENDER_OFFER_IMAGES_COUNT } from '../../const';
+import { AuthorizationStatus, MAX_REVIEWS_COUNT, MAX_RENDER_OFFER_IMAGES_COUNT, RENDER_NEARBY_OFFERS } from '../../const';
 import { getFetchingStatusOffer, getOffer } from '../../store/offer-data/offer-data.selectors';
 import { getAuthorizationStatus } from '../../store/user-data/user-data.selectors';
 import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
@@ -29,8 +29,8 @@ function Offer(): JSX.Element {
   const reviews = useAppSelector(getReviews);
   const offersNearby = useAppSelector(getNearbyOffers);
   const currentOffer = offers.find((item) => item.id === id);
-  const randomNearbyOffers = offersNearby.slice(0, 3);
-  const randomNearbyMap = offersNearby.slice(0,3);
+  const randomNearbyOffers = offersNearby.slice(0, RENDER_NEARBY_OFFERS);
+  const randomNearbyMap = offersNearby.slice(0,RENDER_NEARBY_OFFERS);
   const isAuthorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function Offer(): JSX.Element {
   }, [id, dispatch]);
 
   const [activeFavorite, setActiveFavorite] = useState(currentOffer?.isFavorite);
-
+  const ratingLength = `${(100 / 5) * Math.round(currentOffer?.rating || 0)}%`;
 
   if (currentOffer) {
     randomNearbyMap.push(currentOffer);
@@ -55,7 +55,7 @@ function Offer(): JSX.Element {
     .slice(0,MAX_REVIEWS_COUNT);
 
 
-  if(isDetailedOfferDataLoading !== 'SUCCESS') {
+  if(isDetailedOfferDataLoading === 'PENDING' || isDetailedOfferDataLoading === 'UNSENT') {
     return (
       <LoadingScreen />
     );
@@ -80,9 +80,10 @@ function Offer(): JSX.Element {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className={`offer__mark ${offer.isPremium ? '' : 'visually-hidden'}`}>
-                <span>Premium</span>
-              </div>
+              {offer.isPremium &&
+                <div className="offer__mark">
+                  <span>Premium</span>
+                </div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {offer.title}
@@ -97,7 +98,7 @@ function Offer(): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${String(offer.rating / 5 * 100)}%` }} />
+                  <span style={{ width: ratingLength }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -146,7 +147,7 @@ function Offer(): JSX.Element {
                   Reviews · <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ul className="reviews__list">
-                  {reviewsToRender.map((comment) => (<ReviewItem key={comment.id} comment={comment} />))}
+                  {reviewsToRender.map((comment) => (<ReviewItem key={comment.id} comment={comment} avatarUrl={comment.user.avatarUrl} />))}
                 </ul>
                 {isAuthorizationStatus === AuthorizationStatus.Auth &&
                 <CommentForm id={id ?? ''} />}

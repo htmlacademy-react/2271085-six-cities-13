@@ -2,14 +2,10 @@ import {useState, FormEvent, ChangeEvent, useEffect} from 'react';
 import RatingStar from '../rating-star/rating-star';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { postReview } from '../../store/api-actions';
-import { RequestStatus } from '../../const';
+import { RequestStatus, CommentLength } from '../../const';
 import { getSendingStatusReview } from '../../store/reviews-data/reviews-data.selectors';
 import { dropSendingStatusReview } from '../../store/reviews-data/reviews-data.slice';
 import { toast } from 'react-toastify';
-
-
-const MIN_COMMENT_LENGTH = 50;
-const MAX_COMMENT_LENGTH = 300;
 
 type CommentFormProps = {
   id: string;
@@ -25,8 +21,8 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
   const sendingStatus = useAppSelector(getSendingStatusReview);
 
   const isValid =
-    comment.length >= MIN_COMMENT_LENGTH &&
-    comment.length <= MAX_COMMENT_LENGTH &&
+    comment.length >= CommentLength.Min &&
+    comment.length <= CommentLength.Max &&
     rating;
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +38,6 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
     dispatch(
       postReview({reviewData: {comment, rating: Number(rating)}, id})
     );
-    setRating('0');
   }
 
   const ratingStarsItems = [5,4,3,2,1].map((star) => (
@@ -62,7 +57,7 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
       switch (sendingStatus) {
         case RequestStatus.Success:
           setComment('');
-          setRating('');
+          setRating('0');
           dispatch(dropSendingStatusReview());
           setIsSubmitting(false);
           break;

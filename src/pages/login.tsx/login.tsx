@@ -1,9 +1,13 @@
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import { Link } from 'react-router-dom';
 import {useRef, FormEvent, useState } from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
+import { getRandomCity } from '../../utils';
+import { CityMap, AppRoute } from '../../const';
+import { changeCity } from '../../store/offers-data/offers-data.slice';
 
 
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z-A-Z]).{2,}$/;
@@ -17,6 +21,8 @@ function Login() : JSX.Element {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const randomCity = getRandomCity(CityMap);
 
   const clickSubmitButtonHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -41,6 +47,11 @@ function Login() : JSX.Element {
         password: passwordRef.current.value
       }));
     }
+  };
+
+  const handleButtonRandomClick = () => {
+    dispatch(changeCity(randomCity));
+    navigate(AppRoute.Main);
   };
 
 
@@ -98,9 +109,13 @@ function Login() : JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="#">
-                <span>Amsterdam</span>
-              </Link>
+            <button
+                type='button'
+                className="locations__item-link"
+                onClick={handleButtonRandomClick}
+              >
+                <span>{randomCity.name}</span>
+              </button>
             </div>
           </section>
         </div>

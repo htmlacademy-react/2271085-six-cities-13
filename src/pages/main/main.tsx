@@ -3,7 +3,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import OffersList from '../../components/offers-list/offers-list';
 import Header from '../../components/header/header';
 import { Offer } from '../../types/offer-data';
-import Map from '../../components/map/map';
+import Map from '../../components/map/map.module';
 import CityList from '../../components/city-list/city-list';
 import { useAppSelector, useAppDispatch} from '../../hooks';
 import { CitiesList } from '../../const';
@@ -66,7 +66,7 @@ function Main (): JSX.Element {
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{sortedOffers.length} places to stay in {activeCity.name}</b>
+                  <b className="places__found">{sortedOffers.length} {sortedOffers.length === 1 ? 'place' : 'places'} to stay in {activeCity.name}</b>
                   <FilterOffers onChange={handleFilterOffersChange} />
                   <OffersList
                     offers={offersList}

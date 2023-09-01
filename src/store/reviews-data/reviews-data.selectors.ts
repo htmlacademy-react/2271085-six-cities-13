@@ -8,11 +8,6 @@ export const getReviews = createSelector(
   (state: ReviewsData) => state.reviews
 );
 
-export const getFetchingStatusReview = createSelector(
-  (state: State) => state[FetchingNameSpace.Reviews],
-  (state: ReviewsData) => state.fetchingStatusReviews
-);
-
 export const getSendingStatusReview = createSelector(
   (state: State) => state[FetchingNameSpace.Reviews],
   (state: ReviewsData) => state.sendingStatusReview

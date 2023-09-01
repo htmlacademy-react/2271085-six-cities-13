@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { FetchingNameSpace, RequestStatus } from '../../const';
 import { FavoritesData } from '../../types/favorites-data';
 import { fetchFavoritesAction, addFavorite, deleteFavorite } from '../api-actions';
+import { clearFavoriteAction } from '../action';
 
 const initialState: FavoritesData = {
   favorites: [],
@@ -30,6 +31,9 @@ export const favoritesData = createSlice({
       .addCase(deleteFavorite.fulfilled, (state, action) => {
         const updateOffer = action.payload;
         state.favorites = state.favorites.filter((offer) => offer.id !== updateOffer.id);
+      })
+      .addCase(clearFavoriteAction, (state) => {
+        state.favorites = [];
       });
   },
 });

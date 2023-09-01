@@ -7,8 +7,3 @@ export const getFavorites = createSelector(
   (state: State) => state[FetchingNameSpace.Favorites],
   (state: FavoritesData) => state.favorites
 );
-
-export const getFetchingStatusFavorites = createSelector(
-  (state: State) => state[FetchingNameSpace.Favorites],
-  (state: FavoritesData) => state.fetchingStatusFavorites
-);

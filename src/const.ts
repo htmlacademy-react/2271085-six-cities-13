@@ -4,8 +4,15 @@ export const MAX_REVIEWS_COUNT = 10;
 
 export const MAX_RENDER_OFFER_IMAGES_COUNT = 6;
 
+export const RENDER_NEARBY_OFFERS = 3;
+
 export const enum Settings{
   Offers = 10,
+}
+
+export const enum CommentLength {
+  Min = 50,
+  Max = 300,
 }
 
 export enum AppRoute {
@@ -123,13 +130,13 @@ export const enum FavoriteStatus {
 export const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 
-const ASSETS_BASE_UPL = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/';
+const ASSETS_BASE_UPL = '/img';
 
 export const URL_MARKER_DEFAULT =
   `${ASSETS_BASE_UPL}/pin.svg`;
 
 export const URL_MARKER_CURRENT =
-  `${ASSETS_BASE_UPL}/main-pin.svg`;
+  `${ASSETS_BASE_UPL}/pin-active.svg`;
 
 
 export {Stars};

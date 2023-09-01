@@ -5,7 +5,7 @@ import { Offer, DetailedOffer} from '../types/offer-data.js';
 import { AuthData } from '../types/user-data.js';
 import { Offers } from '../types/offers-data.js';
 import { Comment, Comments, ReviewData } from '../types/types.js';
-import { redirectToRoute} from './action';
+import { redirectToRoute, clearFavoriteAction } from './action';
 import {APIRoute, AppRoute, FetchingNameSpace, FavoriteStatus } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { AuthorizedUser } from '../types/user-data.js';
@@ -152,6 +152,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(redirectToRoute(AppRoute.Login));
+    dispatch(clearFavoriteAction());
   },
 );
