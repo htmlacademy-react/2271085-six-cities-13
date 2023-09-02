@@ -44,5 +44,3 @@ export type OfferData = {
   fetchingStatusOffer: RequestStatus;
 }
 
-
-export type DetailedOffers = DetailedOffer[];

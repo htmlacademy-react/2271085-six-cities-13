@@ -6,10 +6,6 @@ export const MAX_RENDER_OFFER_IMAGES_COUNT = 6;
 
 export const RENDER_NEARBY_OFFERS = 3;
 
-export const enum Settings{
-  Offers = 10,
-}
-
 export const enum CommentLength {
   Min = 50,
   Max = 300,

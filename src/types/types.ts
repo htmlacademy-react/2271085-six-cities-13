@@ -8,11 +8,6 @@ type Comment = {
   user: User;
 }
 
-type Review = {
-  reviewData: ReviewData;
-  id: string;
-}
-
 type ReviewData = {
   rating: number;
   comment: string;
@@ -21,4 +16,4 @@ type ReviewData = {
 
 type Comments = Comment[];
 
-export type { Review, ReviewData,Comment, Comments,};
+export type { ReviewData,Comment, Comments,};
